@@ -12,8 +12,16 @@ var (
 	LevelError = 8
 )
 
-func Init(level int) {
-	LogLevel = level
+func Init(level string) {
+	if level == "debug" {
+		LogLevel = LevelDebug
+	} else if level == "info" {
+		LogLevel = LevelInfo
+	} else if level == "warn" {
+		LogLevel = LevelWarn
+	} else if level == "error" {
+		LogLevel = LevelError
+	}
 	slog.SetLogLoggerLevel(slog.Level(LogLevel))
 }
 

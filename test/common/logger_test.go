@@ -7,7 +7,7 @@ import (
 )
 
 func TestLogger(t *testing.T) {
-	log.Init(log.LevelDebug)
+	log.Init("debug")
 	log.Debug("debug")
 	log.Info("info")
 	log.Warn("warn")
