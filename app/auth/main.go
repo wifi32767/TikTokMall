@@ -35,7 +35,7 @@ func kitexInit() (opts []server.Option) {
 	opts = append(opts, server.WithMetaHandler(transmeta.ServerTTHeaderHandler))
 
 	// consul
-	r, err := consul.NewConsulRegister("127.0.0.1:8500")
+	r, err := consul.NewConsulRegister(conf.GetConf().Consul_address)
 	if err != nil {
 		panic(err)
 	}

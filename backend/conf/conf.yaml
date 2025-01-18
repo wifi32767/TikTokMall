@@ -1,0 +1,4 @@
+gin:
+  port: ":8080"
+rpc:
+  consul_address: "localhost:8500"

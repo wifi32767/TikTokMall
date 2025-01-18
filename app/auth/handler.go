@@ -23,7 +23,7 @@ func (s *AuthServiceImpl) DeliverTokenByRPC(ctx context.Context, req *auth.Deliv
 	if err != nil {
 		return nil, err
 	}
-	err = dal.RedisDB.Set(ctx, strconv.Itoa(int(req.GetUserId())), token, oneYear).Err()
+	err = dal.RedisClient.Set(ctx, strconv.Itoa(int(req.GetUserId())), token, oneYear).Err()
 	if err != nil {
 		return
 	}
@@ -36,31 +36,30 @@ func (s *AuthServiceImpl) DeliverTokenByRPC(ctx context.Context, req *auth.Deliv
 
 // VerifyTokenByRPC implements the AuthServiceImpl interface.
 func (s *AuthServiceImpl) VerifyTokenByRPC(ctx context.Context, req *auth.VerifyTokenReq) (resp *auth.VerifyResp, err error) {
+	resp = &auth.VerifyResp{}
 	// 验证redis中是否有这个token
 	token, err := utils.ParseToken(req.Token)
 	if err != nil {
-		return nil, err
+		resp.Res = false
+		return
 	}
-	t, err := dal.RedisDB.Get(ctx, strconv.Itoa(int(token.Userid))).Result()
-	resp = &auth.VerifyResp{
-		Res: true,
-	}
+	t, err := dal.RedisClient.Get(ctx, strconv.Itoa(int(token.Userid))).Result()
 	if err != nil {
 		if err == redis.Nil {
 			err = nil
 			resp.Res = false
 		}
 	} else {
-		if t != req.Token {
-			resp.Res = false
+		if t == req.Token {
+			resp.Res = true
+			resp.UserId = token.Userid
 		}
-		resp.UserId = token.Userid
 	}
 	return
 }
 
 // DeleteTokenByRPC implements the AuthServiceImpl interface.
 func (s *AuthServiceImpl) DeleteTokenByRPC(ctx context.Context, req *auth.DeleteTokenReq) (resp *auth.Empty, err error) {
-	err = dal.RedisDB.Del(ctx, strconv.Itoa(int(req.GetUserId()))).Err()
+	err = dal.RedisClient.Del(ctx, strconv.Itoa(int(req.GetUserId()))).Err()
 	return
 }

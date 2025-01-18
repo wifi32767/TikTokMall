@@ -12,8 +12,9 @@ var (
 )
 
 type Config struct {
-	Kitex Kitex `yaml:"kitex"`
-	Mysql Mysql `yaml:"mysql"`
+	Kitex          Kitex  `yaml:"kitex"`
+	Redis          Redis  `yaml:"redis"`
+	Consul_address string `yaml:"consul_address"`
 }
 
 type Kitex struct {
@@ -22,9 +23,8 @@ type Kitex struct {
 	Log_level string `yaml:"log_level"`
 }
 
-type Mysql struct {
-	Dsn      string `yaml:"dsn"`
-	Username string `yaml:"username"`
+type Redis struct {
+	Address  string `yaml:"address"`
 	Password string `yaml:"password"`
 }
 

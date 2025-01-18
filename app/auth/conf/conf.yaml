@@ -2,9 +2,7 @@ kitex:
   service: "auth"
   address: ":8880"
   log_level: "info"
-mysql:
-  dsn: "%s:%s@tcp(127.0.0.1:3306)/user?charset=utf8mb4&parseTime=True&loc=Local"
-  username: "root"
-  password: "123456"
+  consul_address: "localhost:8500"
 redis:
-  
+  address: "localhost:6379"
+  password: ""
