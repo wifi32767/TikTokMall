@@ -8,13 +8,17 @@ import (
 	"github.com/cloudwego/kitex/server"
 	consul "github.com/kitex-contrib/registry-consul"
 	"github.com/wifi32767/TikTokMall/app/auth/conf"
+	"github.com/wifi32767/TikTokMall/app/auth/dal"
 	log "github.com/wifi32767/TikTokMall/common/logger"
 	auth "github.com/wifi32767/TikTokMall/rpc/kitex_gen/auth/authservice"
 )
 
 func main() {
+	// log
 	log.Init(conf.GetConf().Kitex.Log_level)
-
+	// redis
+	dal.RedisInit()
+	// kitex
 	opts := kitexInit()
 	svr := auth.NewServer(new(AuthServiceImpl), opts...)
 

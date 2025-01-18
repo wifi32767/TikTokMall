@@ -7,7 +7,10 @@ option go_package="/auth";
 service AuthService {
     rpc DeliverTokenByRPC(DeliverTokenReq) returns (DeliveryResp) {}
     rpc VerifyTokenByRPC(VerifyTokenReq) returns (VerifyResp) {}
+    rpc DeleteTokenByRPC(DeleteTokenReq) returns (Empty) {}
 }
+
+message Empty {}
 
 message DeliverTokenReq {
     int32 user_id = 1;
@@ -17,10 +20,15 @@ message VerifyTokenReq {
     string token = 1;
 }
 
+message DeleteTokenReq {
+    int32 user_id = 1;
+}
+
 message DeliveryResp {
     string token = 1;
 }
 
 message VerifyResp {
     bool res = 1;
+    int32 user_id = 2;
 }
