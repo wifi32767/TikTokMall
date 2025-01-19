@@ -2,7 +2,10 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"github.com/swaggo/gin-swagger/swaggerFiles"
 	"github.com/wifi32767/TikTokMall/backend/biz/handler"
+	_ "github.com/wifi32767/TikTokMall/backend/docs"
 )
 
 func Ping(c *gin.Context) {
@@ -12,6 +15,8 @@ func Ping(c *gin.Context) {
 }
 
 func Register(r *gin.Engine) {
+
+	// test下的路由为了方便测试，直接尽可能多的用get
 	test := r.Group("/test")
 	test.GET("/auth/deliver", handler.DeliverToken)
 	test.GET("/auth/verify", handler.VerifyToken)
@@ -21,4 +26,6 @@ func Register(r *gin.Engine) {
 	// api := r.Group("/api")
 
 	r.GET("/ping", Ping)
+
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
