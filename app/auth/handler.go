@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/go-redis/redis/v8"
 	"github.com/wifi32767/TikTokMall/app/auth/dal"
 	"github.com/wifi32767/TikTokMall/app/auth/utils"
@@ -18,6 +19,8 @@ var oneYear = 365 * 24 * 60 * 60 * time.Second
 
 // DeliverTokenByRPC implements the AuthServiceImpl interface.
 func (s *AuthServiceImpl) DeliverTokenByRPC(ctx context.Context, req *auth.DeliverTokenReq) (resp *auth.DeliveryResp, err error) {
+	klog.Infof("DeliverToken: %v", req)
+	resp = &auth.DeliveryResp{}
 	// 生成一个token，存入redis
 	token, err := utils.GenerateToken(req.GetUserId())
 	if err != nil {
@@ -27,15 +30,13 @@ func (s *AuthServiceImpl) DeliverTokenByRPC(ctx context.Context, req *auth.Deliv
 	if err != nil {
 		return
 	}
-
-	resp = &auth.DeliveryResp{
-		Token: token,
-	}
+	resp.Token = token
 	return
 }
 
 // VerifyTokenByRPC implements the AuthServiceImpl interface.
 func (s *AuthServiceImpl) VerifyTokenByRPC(ctx context.Context, req *auth.VerifyTokenReq) (resp *auth.VerifyResp, err error) {
+	klog.Infof("VerifyToken: %v", req)
 	resp = &auth.VerifyResp{}
 	// 验证redis中是否有这个token
 	token, err := utils.ParseToken(req.Token)
@@ -60,6 +61,8 @@ func (s *AuthServiceImpl) VerifyTokenByRPC(ctx context.Context, req *auth.Verify
 
 // DeleteTokenByRPC implements the AuthServiceImpl interface.
 func (s *AuthServiceImpl) DeleteTokenByRPC(ctx context.Context, req *auth.DeleteTokenReq) (resp *auth.Empty, err error) {
+	klog.Infof("DeleteToken: %v", req)
+	// 删除redis中的token
 	err = dal.RedisClient.Del(ctx, strconv.Itoa(int(req.GetUserId()))).Err()
 	return
 }

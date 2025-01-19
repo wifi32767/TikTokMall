@@ -8,6 +8,7 @@ import (
 	"github.com/dromara/dongle"
 )
 
+// 生成随机字符串
 func GenerateRandomString(n int) (string, error) {
 	bytes := make([]byte, n)
 	if _, err := rand.Read(bytes); err != nil {
@@ -16,6 +17,9 @@ func GenerateRandomString(n int) (string, error) {
 	return hex.EncodeToString(bytes), nil
 }
 
+// 用Userid和随机的盐值生成一个token
+// 盐值作为标记，防止伪造
+// 同时可以轻易获取token对应的userid
 type Token struct {
 	Userid int32
 	Salt   string

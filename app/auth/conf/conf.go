@@ -3,6 +3,7 @@ package conf
 import (
 	"sync"
 
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/wifi32767/TikTokMall/common/config"
 )
 
@@ -34,4 +35,26 @@ func GetConf() *Config {
 		config.Init(conf)
 	})
 	return conf
+}
+
+func LogLevel() klog.Level {
+	level := GetConf().Kitex.Log_level
+	switch level {
+	case "trace":
+		return klog.LevelTrace
+	case "debug":
+		return klog.LevelDebug
+	case "info":
+		return klog.LevelInfo
+	case "notice":
+		return klog.LevelNotice
+	case "warn":
+		return klog.LevelWarn
+	case "error":
+		return klog.LevelError
+	case "fatal":
+		return klog.LevelFatal
+	default:
+		return klog.LevelInfo
+	}
 }

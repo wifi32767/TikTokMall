@@ -3,19 +3,19 @@ package main
 import (
 	"net"
 
+	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/cloudwego/kitex/pkg/registry"
 	"github.com/cloudwego/kitex/pkg/transmeta"
 	"github.com/cloudwego/kitex/server"
 	consul "github.com/kitex-contrib/registry-consul"
 	"github.com/wifi32767/TikTokMall/app/auth/conf"
 	"github.com/wifi32767/TikTokMall/app/auth/dal"
-	log "github.com/wifi32767/TikTokMall/common/logger"
 	auth "github.com/wifi32767/TikTokMall/rpc/kitex_gen/auth/authservice"
 )
 
 func main() {
 	// log
-	log.Init(conf.GetConf().Kitex.Log_level)
+	klog.SetLevel(conf.LogLevel())
 	// redis
 	dal.RedisInit()
 	// kitex
@@ -25,7 +25,7 @@ func main() {
 	err := svr.Run()
 
 	if err != nil {
-		log.Error(err.Error())
+		klog.Error(err.Error())
 	}
 }
 
