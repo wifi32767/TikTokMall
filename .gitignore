@@ -27,3 +27,5 @@ go.work.sum
 .vscode/
 go.sum
 
+# air
+tmp/

@@ -13,9 +13,10 @@ func Ping(c *gin.Context) {
 
 func Register(r *gin.Engine) {
 	test := r.Group("/test")
-	test.GET("/auth/deliver", handler.DeliverTokenByRPC)
-	test.GET("/auth/verify", handler.VerifyTokenByRPC)
-	test.GET("/auth/delete", handler.DeleteTokenByRPC)
+	test.GET("/auth/deliver", handler.DeliverToken)
+	test.GET("/auth/verify", handler.VerifyToken)
+	test.GET("/auth/delete", handler.DeleteToken)
+	test.GET("/auth/deleteall", handler.DeleteAllTokens)
 
 	// api := r.Group("/api")
 

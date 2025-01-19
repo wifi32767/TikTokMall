@@ -11,9 +11,10 @@ import (
 
 // Client is designed to provide IDL-compatible methods with call-option parameter for kitex framework.
 type Client interface {
-	DeliverTokenByRPC(ctx context.Context, Req *auth.DeliverTokenReq, callOptions ...callopt.Option) (r *auth.DeliveryResp, err error)
-	VerifyTokenByRPC(ctx context.Context, Req *auth.VerifyTokenReq, callOptions ...callopt.Option) (r *auth.VerifyResp, err error)
-	DeleteTokenByRPC(ctx context.Context, Req *auth.DeleteTokenReq, callOptions ...callopt.Option) (r *auth.Empty, err error)
+	DeliverToken(ctx context.Context, Req *auth.DeliverTokenReq, callOptions ...callopt.Option) (r *auth.DeliveryResp, err error)
+	VerifyToken(ctx context.Context, Req *auth.VerifyTokenReq, callOptions ...callopt.Option) (r *auth.VerifyResp, err error)
+	DeleteToken(ctx context.Context, Req *auth.DeleteTokenReq, callOptions ...callopt.Option) (r *auth.Empty, err error)
+	DeleteAllTokens(ctx context.Context, Req *auth.DeleteAllTokensReq, callOptions ...callopt.Option) (r *auth.Empty, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -45,17 +46,22 @@ type kAuthServiceClient struct {
 	*kClient
 }
 
-func (p *kAuthServiceClient) DeliverTokenByRPC(ctx context.Context, Req *auth.DeliverTokenReq, callOptions ...callopt.Option) (r *auth.DeliveryResp, err error) {
+func (p *kAuthServiceClient) DeliverToken(ctx context.Context, Req *auth.DeliverTokenReq, callOptions ...callopt.Option) (r *auth.DeliveryResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.DeliverTokenByRPC(ctx, Req)
+	return p.kClient.DeliverToken(ctx, Req)
 }
 
-func (p *kAuthServiceClient) VerifyTokenByRPC(ctx context.Context, Req *auth.VerifyTokenReq, callOptions ...callopt.Option) (r *auth.VerifyResp, err error) {
+func (p *kAuthServiceClient) VerifyToken(ctx context.Context, Req *auth.VerifyTokenReq, callOptions ...callopt.Option) (r *auth.VerifyResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.VerifyTokenByRPC(ctx, Req)
+	return p.kClient.VerifyToken(ctx, Req)
 }
 
-func (p *kAuthServiceClient) DeleteTokenByRPC(ctx context.Context, Req *auth.DeleteTokenReq, callOptions ...callopt.Option) (r *auth.Empty, err error) {
+func (p *kAuthServiceClient) DeleteToken(ctx context.Context, Req *auth.DeleteTokenReq, callOptions ...callopt.Option) (r *auth.Empty, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
-	return p.kClient.DeleteTokenByRPC(ctx, Req)
+	return p.kClient.DeleteToken(ctx, Req)
+}
+
+func (p *kAuthServiceClient) DeleteAllTokens(ctx context.Context, Req *auth.DeleteAllTokensReq, callOptions ...callopt.Option) (r *auth.Empty, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.DeleteAllTokens(ctx, Req)
 }

@@ -5,9 +5,10 @@ package auth;
 option go_package="/auth";
 
 service AuthService {
-    rpc DeliverTokenByRPC(DeliverTokenReq) returns (DeliveryResp) {}
-    rpc VerifyTokenByRPC(VerifyTokenReq) returns (VerifyResp) {}
-    rpc DeleteTokenByRPC(DeleteTokenReq) returns (Empty) {}
+    rpc DeliverToken(DeliverTokenReq) returns (DeliveryResp) {}
+    rpc VerifyToken(VerifyTokenReq) returns (VerifyResp) {}
+    rpc DeleteToken(DeleteTokenReq) returns (Empty) {}
+    rpc DeleteAllTokens(DeleteAllTokensReq) returns (Empty) {}
 }
 
 message Empty {}
@@ -21,6 +22,10 @@ message VerifyTokenReq {
 }
 
 message DeleteTokenReq {
+    string token = 1;
+}
+
+message DeleteAllTokensReq {
     int32 user_id = 1;
 }
 
