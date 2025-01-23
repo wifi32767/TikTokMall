@@ -24,16 +24,19 @@ func (s *AuthServiceImpl) DeliverToken(ctx context.Context, req *auth.DeliverTok
 	// 生成一个token，存入redis
 	token, err := utils.GenerateToken(req.GetUserId())
 	if err != nil {
+		klog.Error(err)
 		return nil, err
 	}
 	// redis 7.4.0之后支持为Hash中的各个字段分别设置过期时间
 	// 因此需要用比较新的redis库，9.7.0之上
 	err = dal.RedisClient.HSet(ctx, strconv.Itoa(int(req.GetUserId())), token, 1).Err()
 	if err != nil {
+		klog.Error(err)
 		return
 	}
 	err = dal.RedisClient.HExpire(ctx, strconv.Itoa(int(req.GetUserId())), oneMonth, token).Err()
 	if err != nil {
+		klog.Error(err)
 		return
 	}
 	resp.Token = token
@@ -58,6 +61,8 @@ func (s *AuthServiceImpl) VerifyToken(ctx context.Context, req *auth.VerifyToken
 		if err == redis.Nil {
 			err = nil
 			resp.Res = false
+		} else {
+			klog.Error(err)
 		}
 	} else {
 		resp.Res = true
@@ -80,6 +85,8 @@ func (s *AuthServiceImpl) DeleteToken(ctx context.Context, req *auth.DeleteToken
 	err = dal.RedisClient.HDel(ctx, strconv.Itoa(int(token.Userid)), req.GetToken()).Err()
 	if err == redis.Nil {
 		err = nil
+	} else {
+		klog.Error(err)
 	}
 	return
 }
@@ -91,6 +98,8 @@ func (s *AuthServiceImpl) DeleteAllTokens(ctx context.Context, req *auth.DeleteA
 	err = dal.RedisClient.Del(ctx, strconv.Itoa(int(req.GetUserId()))).Err()
 	if err == redis.Nil {
 		err = nil
+	} else {
+		klog.Error(err)
 	}
 	return
 }

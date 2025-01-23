@@ -21,11 +21,11 @@ func GenerateRandomString(n int) (string, error) {
 // 盐值作为标记，防止伪造
 // 同时可以轻易获取token对应的userid
 type Token struct {
-	Userid int32
+	Userid uint32
 	Salt   string
 }
 
-func GenerateToken(uid int32) (string, error) {
+func GenerateToken(uid uint32) (string, error) {
 	salt, err := GenerateRandomString(16)
 	if err != nil {
 		return "", err

@@ -32,7 +32,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.tokenInput"
+                            "$ref": "#/definitions/test_handler.tokenInput"
                         }
                     }
                 ],
@@ -43,13 +43,13 @@ const docTemplate = `{
                     "400": {
                         "description": "请求格式错误",
                         "schema": {
-                            "$ref": "#/definitions/handler.errorReturn"
+                            "$ref": "#/definitions/test_handler.errorReturn"
                         }
                     },
                     "500": {
                         "description": "服务器错误",
                         "schema": {
-                            "$ref": "#/definitions/handler.errorReturn"
+                            "$ref": "#/definitions/test_handler.errorReturn"
                         }
                     }
                 }
@@ -72,7 +72,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.useridInput"
+                            "$ref": "#/definitions/test_handler.useridInput"
                         }
                     }
                 ],
@@ -83,13 +83,13 @@ const docTemplate = `{
                     "400": {
                         "description": "请求格式错误",
                         "schema": {
-                            "$ref": "#/definitions/handler.errorReturn"
+                            "$ref": "#/definitions/test_handler.errorReturn"
                         }
                     },
                     "500": {
                         "description": "服务器错误",
                         "schema": {
-                            "$ref": "#/definitions/handler.errorReturn"
+                            "$ref": "#/definitions/test_handler.errorReturn"
                         }
                     }
                 }
@@ -108,11 +108,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "用户id",
-                        "name": "userid",
+                        "name": "input",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.useridInput"
+                            "$ref": "#/definitions/test_handler.useridInput"
                         }
                     }
                 ],
@@ -120,19 +120,19 @@ const docTemplate = `{
                     "200": {
                         "description": "token",
                         "schema": {
-                            "$ref": "#/definitions/handler.tokenInput"
+                            "$ref": "#/definitions/test_handler.tokenInput"
                         }
                     },
                     "400": {
                         "description": "请求格式错误",
                         "schema": {
-                            "$ref": "#/definitions/handler.errorReturn"
+                            "$ref": "#/definitions/test_handler.errorReturn"
                         }
                     },
                     "500": {
                         "description": "服务器错误",
                         "schema": {
-                            "$ref": "#/definitions/handler.errorReturn"
+                            "$ref": "#/definitions/test_handler.errorReturn"
                         }
                     }
                 }
@@ -155,7 +155,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.tokenInput"
+                            "$ref": "#/definitions/test_handler.tokenInput"
                         }
                     }
                 ],
@@ -163,8 +163,189 @@ const docTemplate = `{
                     "200": {
                         "description": "结果",
                         "schema": {
-                            "$ref": "#/definitions/handler.verifyOutput"
+                            "$ref": "#/definitions/test_handler.verifyOutput"
                         }
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/test_handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/test_handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/delete": {
+            "delete": {
+                "description": "删除一个账户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "删除账户",
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/login": {
+            "post": {
+                "description": "登录一个账户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "登录",
+                "parameters": [
+                    {
+                        "description": "登录信息",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.registerInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/logout": {
+            "post": {
+                "description": "登出一个账户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "登出",
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/register": {
+            "post": {
+                "description": "注册一个新的账户",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "注册账户",
+                "parameters": [
+                    {
+                        "description": "注册信息",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.registerInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "用户id",
+                        "schema": {
+                            "$ref": "#/definitions/handler.useridInput"
+                        }
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/update": {
+            "put": {
+                "description": "修改一个账户的密码",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "修改密码",
+                "parameters": [
+                    {
+                        "description": "修改信息",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.updateInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
                     },
                     "400": {
                         "description": "请求格式错误",
@@ -191,13 +372,36 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.tokenInput": {
+        "handler.registerInput": {
             "type": "object",
             "required": [
-                "token"
+                "password",
+                "username"
             ],
             "properties": {
-                "token": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.updateInput": {
+            "type": "object",
+            "required": [
+                "new_password",
+                "old_password",
+                "username"
+            ],
+            "properties": {
+                "new_password": {
+                    "type": "string"
+                },
+                "old_password": {
+                    "type": "string"
+                },
+                "username": {
                     "type": "string"
                 }
             }
@@ -213,7 +417,37 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.verifyOutput": {
+        "test_handler.errorReturn": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "test_handler.tokenInput": {
+            "type": "object",
+            "required": [
+                "token"
+            ],
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "test_handler.useridInput": {
+            "type": "object",
+            "required": [
+                "userid"
+            ],
+            "properties": {
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "test_handler.verifyOutput": {
             "type": "object",
             "properties": {
                 "res": {

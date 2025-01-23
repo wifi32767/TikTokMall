@@ -4,12 +4,28 @@ definitions:
       error:
         type: string
     type: object
-  handler.tokenInput:
+  handler.registerInput:
     properties:
-      token:
+      password:
+        type: string
+      username:
         type: string
     required:
-    - token
+    - password
+    - username
+    type: object
+  handler.updateInput:
+    properties:
+      new_password:
+        type: string
+      old_password:
+        type: string
+      username:
+        type: string
+    required:
+    - new_password
+    - old_password
+    - username
     type: object
   handler.useridInput:
     properties:
@@ -18,7 +34,26 @@ definitions:
     required:
     - userid
     type: object
-  handler.verifyOutput:
+  test_handler.errorReturn:
+    properties:
+      error:
+        type: string
+    type: object
+  test_handler.tokenInput:
+    properties:
+      token:
+        type: string
+    required:
+    - token
+    type: object
+  test_handler.useridInput:
+    properties:
+      userid:
+        type: integer
+    required:
+    - userid
+    type: object
+  test_handler.verifyOutput:
     properties:
       res:
         type: boolean
@@ -37,7 +72,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/handler.tokenInput'
+          $ref: '#/definitions/test_handler.tokenInput'
       produces:
       - application/json
       responses:
@@ -46,11 +81,11 @@ paths:
         "400":
           description: 请求格式错误
           schema:
-            $ref: '#/definitions/handler.errorReturn'
+            $ref: '#/definitions/test_handler.errorReturn'
         "500":
           description: 服务器错误
           schema:
-            $ref: '#/definitions/handler.errorReturn'
+            $ref: '#/definitions/test_handler.errorReturn'
       summary: 删除token
       tags:
       - test/auth
@@ -63,7 +98,7 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/handler.useridInput'
+          $ref: '#/definitions/test_handler.useridInput'
       produces:
       - application/json
       responses:
@@ -72,11 +107,11 @@ paths:
         "400":
           description: 请求格式错误
           schema:
-            $ref: '#/definitions/handler.errorReturn'
+            $ref: '#/definitions/test_handler.errorReturn'
         "500":
           description: 服务器错误
           schema:
-            $ref: '#/definitions/handler.errorReturn'
+            $ref: '#/definitions/test_handler.errorReturn'
       summary: 删除所有token
       tags:
       - test/auth
@@ -86,25 +121,25 @@ paths:
       parameters:
       - description: 用户id
         in: body
-        name: userid
+        name: input
         required: true
         schema:
-          $ref: '#/definitions/handler.useridInput'
+          $ref: '#/definitions/test_handler.useridInput'
       produces:
       - application/json
       responses:
         "200":
           description: token
           schema:
-            $ref: '#/definitions/handler.tokenInput'
+            $ref: '#/definitions/test_handler.tokenInput'
         "400":
           description: 请求格式错误
           schema:
-            $ref: '#/definitions/handler.errorReturn'
+            $ref: '#/definitions/test_handler.errorReturn'
         "500":
           description: 服务器错误
           schema:
-            $ref: '#/definitions/handler.errorReturn'
+            $ref: '#/definitions/test_handler.errorReturn'
       summary: 获取token
       tags:
       - test/auth
@@ -117,14 +152,33 @@ paths:
         name: input
         required: true
         schema:
-          $ref: '#/definitions/handler.tokenInput'
+          $ref: '#/definitions/test_handler.tokenInput'
       produces:
       - application/json
       responses:
         "200":
           description: 结果
           schema:
-            $ref: '#/definitions/handler.verifyOutput'
+            $ref: '#/definitions/test_handler.verifyOutput'
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/test_handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/test_handler.errorReturn'
+      summary: 验证token
+      tags:
+      - test/auth
+  /user/delete:
+    delete:
+      description: 删除一个账户
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
         "400":
           description: 请求格式错误
           schema:
@@ -133,7 +187,106 @@ paths:
           description: 服务器错误
           schema:
             $ref: '#/definitions/handler.errorReturn'
-      summary: 验证token
+      summary: 删除账户
       tags:
-      - test/auth
+      - user
+  /user/login:
+    post:
+      description: 登录一个账户
+      parameters:
+      - description: 登录信息
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.registerInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 登录
+      tags:
+      - user
+  /user/logout:
+    post:
+      description: 登出一个账户
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 登出
+      tags:
+      - user
+  /user/register:
+    post:
+      description: 注册一个新的账户
+      parameters:
+      - description: 注册信息
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.registerInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 用户id
+          schema:
+            $ref: '#/definitions/handler.useridInput'
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 注册账户
+      tags:
+      - user
+  /user/update:
+    put:
+      description: 修改一个账户的密码
+      parameters:
+      - description: 修改信息
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.updateInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 修改密码
+      tags:
+      - user
 swagger: "2.0"

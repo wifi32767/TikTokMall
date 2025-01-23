@@ -15,13 +15,13 @@ var (
 type Config struct {
 	Kitex          Kitex  `yaml:"kitex"`
 	Redis          Redis  `yaml:"redis"`
-	Consul_address string `yaml:"consul_address"`
 }
 
 type Kitex struct {
 	Service   string `yaml:"service"`
 	Address   string `yaml:"address"`
 	Log_level string `yaml:"log_level"`
+	Consul_address string `yaml:"consul_address"`
 }
 
 type Redis struct {

@@ -35,7 +35,7 @@ func kitexInit() (opts []server.Option) {
 	opts = append(opts, server.WithMetaHandler(transmeta.ServerTTHeaderHandler))
 
 	// consul
-	r, err := consul.NewConsulRegister(conf.GetConf().Consul_address)
+	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.Consul_address)
 	if err != nil {
 		panic(err)
 	}

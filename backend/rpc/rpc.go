@@ -6,9 +6,13 @@ import (
 	consul "github.com/kitex-contrib/registry-consul"
 	"github.com/wifi32767/TikTokMall/backend/conf"
 	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/auth/authservice"
+	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/user/userservice"
 )
 
-var AuthClient authservice.Client
+var (
+	AuthClient authservice.Client
+	UserClient userservice.Client
+)
 
 func Init() {
 	r, err := consul.NewConsulResolver(conf.GetConf().Rpc.Consul_address)
@@ -17,6 +21,11 @@ func Init() {
 	}
 	AuthClient = authservice.MustNewClient(
 		"auth",
+		client.WithResolver(r),
+		client.WithTransportProtocol(transport.GRPC),
+	)
+	UserClient = userservice.MustNewClient(
+		"user",
 		client.WithResolver(r),
 		client.WithTransportProtocol(transport.GRPC),
 	)

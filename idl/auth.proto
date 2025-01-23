@@ -14,7 +14,7 @@ service AuthService {
 message Empty {}
 
 message DeliverTokenReq {
-    int32 user_id = 1;
+    uint32 user_id = 1;
 }
 
 message VerifyTokenReq {
@@ -26,7 +26,7 @@ message DeleteTokenReq {
 }
 
 message DeleteAllTokensReq {
-    int32 user_id = 1;
+    uint32 user_id = 1;
 }
 
 message DeliveryResp {
@@ -35,5 +35,5 @@ message DeliveryResp {
 
 message VerifyResp {
     bool res = 1;
-    int32 user_id = 2;
+    uint32 user_id = 2;
 }
