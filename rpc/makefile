@@ -1,3 +1,7 @@
 .PHONY: gen-auth
 gen-auth:
 	@kitex -module "github.com/wifi32767/TikTokMall" -I ../idl ../idl/auth.proto
+
+.PHONY: gen-user
+gen-user:
+	@kitex -module "github.com/wifi32767/TikTokMall" -I ../idl ../idl/user.proto
