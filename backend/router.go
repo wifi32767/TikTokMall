@@ -7,7 +7,7 @@ import (
 	"github.com/wifi32767/TikTokMall/backend/biz/handler"
 	"github.com/wifi32767/TikTokMall/backend/biz/handler/test_handler"
 	_ "github.com/wifi32767/TikTokMall/backend/docs"
-	"github.com/wifi32767/TikTokMall/backend/middleware"
+	"github.com/wifi32767/TikTokMall/backend/middleware/auth"
 )
 
 func Ping(c *gin.Context) {
@@ -28,11 +28,12 @@ func Register(r *gin.Engine) {
 	api := r.Group("/api")
 
 	user := api.Group("/user")
+	user.Use(auth.WhiteListAuthentication())
 	user.POST("/register", handler.UserRegister)
 	user.POST("/login", handler.UserLogin)
-	user.POST("/logout", middleware.Authentication(), handler.UserLogout)
-	user.DELETE("/delete", middleware.Authentication(), handler.UserDelete)
-	user.PUT("/update", middleware.Authentication(), handler.UserUpdate)
+	user.POST("/logout", handler.UserLogout)
+	user.DELETE("/delete", handler.UserDelete)
+	user.PUT("/update", handler.UserUpdate)
 
 	r.GET("/ping", Ping)
 

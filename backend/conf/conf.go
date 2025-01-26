@@ -12,8 +12,9 @@ var (
 )
 
 type Config struct {
-	Gin Gin `yaml:"gin"`
-	Rpc Rpc `yaml:"rpc"`
+	Gin       Gin      `yaml:"gin"`
+	Rpc       Rpc      `yaml:"rpc"`
+	WhiteList []string `yaml:"whitelist"`
 }
 
 type Gin struct {
@@ -28,6 +29,7 @@ func GetConf() *Config {
 	once.Do(func() {
 		conf = new(Config)
 		config.Init(conf)
+		initWhiteList()
 	})
 	return conf
 }

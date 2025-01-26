@@ -2,3 +2,10 @@ gin:
   port: ":8080"
 rpc:
   consul_address: "localhost:8500"
+whitelist:
+# 在白名单内的路由，使用WhiteListAuthentication中间件的时候无需登录即可访问
+  - /test/.*
+  - /api/user/register
+  - /api/user/login
+  - /ping
+  - /swagger.*
