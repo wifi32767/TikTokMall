@@ -35,6 +35,14 @@ func Register(r *gin.Engine) {
 	user.DELETE("/delete", handler.UserDelete)
 	user.PUT("/update", handler.UserUpdate)
 
+	product := api.Group("/product")
+	product.POST("/create", handler.ProductCreate)
+	product.PUT("/update", handler.ProductUpdate)
+	product.DELETE("/delete", handler.ProductDelete)
+	product.GET("/list", handler.ProductList)
+	product.GET("/get", handler.ProductGet)
+	product.GET("/search", handler.ProductSearch)
+
 	r.GET("/ping", Ping)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

@@ -1,0 +1,88 @@
+syntax = "proto3";
+
+package product;
+
+option go_package = "/product";
+
+service ProductCatalogService {
+  rpc CreateProduct(CreateProductReq) returns (CreateProductResp) {}
+  rpc UpdateProduct(UpdateProductReq) returns (Empty) {}
+  rpc DeleteProduct(DeleteProductReq) returns (Empty) {}
+  rpc ListProducts(ListProductsReq) returns (ListProductsResp) {}
+  rpc GetProduct(GetProductReq) returns (GetProductResp) {}
+  rpc SearchProducts(SearchProductsReq) returns (SearchProductsResp) {}
+}
+
+message Empty {}
+
+message Product {
+  uint32 id = 1;
+  string name = 2;
+  string description = 3;
+  string picture = 4;
+  float price = 5;
+
+  repeated string categories = 6;
+}
+
+message CreateProductReq {
+  string name = 1;
+  string description = 2;
+  string picture = 3;
+  float price = 4;
+
+  repeated string categories = 5;
+}
+
+message CreateProductResp {
+  uint32 id = 1;
+}
+
+message UpdateProductReq {
+  uint32 id = 1;
+  string name = 2;
+  string description = 3;
+  string picture = 4;
+  float price = 5;
+
+  repeated string categories = 6;
+}
+
+message UpdateProductResp {
+  bool success = 1;
+}
+
+message DeleteProductReq {
+  uint32 id = 1;
+}
+
+message DeleteProductResp {
+  bool success = 1;
+}
+
+message ListProductsReq{
+  int32 page = 1;
+  int32 pageSize = 2;  // 这里原来是int64，我觉得没必要就改成int32了
+
+  string categoryName = 3;
+}
+
+message ListProductsResp {
+  repeated Product products = 1;
+}
+
+message GetProductReq {
+  uint32 id = 1;
+}
+
+message GetProductResp {
+  Product product = 1;
+}
+
+message SearchProductsReq {
+  string query = 1;
+}
+
+message SearchProductsResp {
+  repeated Product results = 1;
+}

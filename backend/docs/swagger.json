@@ -4,6 +4,258 @@
         "contact": {}
     },
     "paths": {
+        "/product/create": {
+            "post": {
+                "description": "创建一个新的商品",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "创建商品",
+                "parameters": [
+                    {
+                        "description": "商品信息",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.productCreateInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "商品id",
+                        "schema": {
+                            "$ref": "#/definitions/handler.idInput"
+                        }
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/delete": {
+            "delete": {
+                "description": "删除商品",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "删除商品",
+                "parameters": [
+                    {
+                        "description": "商品id",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.idInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/get": {
+            "get": {
+                "description": "获取单个商品信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "获取商品信息",
+                "parameters": [
+                    {
+                        "description": "商品id",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.idInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "商品信息",
+                        "schema": {
+                            "$ref": "#/definitions/handler.simpleProduct"
+                        }
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/list": {
+            "get": {
+                "description": "获取指定类别的商品列表，不指定类别返回全部商品的列表",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "商品列表",
+                "parameters": [
+                    {
+                        "description": "商品列表信息",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.productListInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "商品列表",
+                        "schema": {
+                            "$ref": "#/definitions/handler.productListInput"
+                        }
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/search": {
+            "get": {
+                "description": "搜索在名字和描述中含有关键词的商品",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "商品搜索",
+                "parameters": [
+                    {
+                        "description": "搜索关键词",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.searchInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "商品信息",
+                        "schema": {
+                            "$ref": "#/definitions/handler.simpleProduct"
+                        }
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/update": {
+            "put": {
+                "description": "更新商品信息",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "product"
+                ],
+                "summary": "更新商品信息",
+                "parameters": [
+                    {
+                        "description": "商品信息",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.simpleProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
         "/test/auth/delete": {
             "get": {
                 "description": "删除一个token，即退出该用户在该机器上的登录",
@@ -27,7 +279,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "空"
+                        "description": "成功"
                     },
                     "400": {
                         "description": "请求格式错误",
@@ -67,7 +319,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "空"
+                        "description": "成功"
                     },
                     "400": {
                         "description": "请求格式错误",
@@ -361,6 +613,64 @@
                 }
             }
         },
+        "handler.idInput": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.productCreateInput": {
+            "type": "object",
+            "required": [
+                "description",
+                "name",
+                "picture",
+                "price"
+            ],
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                }
+            }
+        },
+        "handler.productListInput": {
+            "type": "object",
+            "required": [
+                "page",
+                "pagesize"
+            ],
+            "properties": {
+                "category_name": {
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "pagesize": {
+                    "type": "integer"
+                }
+            }
+        },
         "handler.registerInput": {
             "type": "object",
             "required": [
@@ -373,6 +683,46 @@
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "handler.searchInput": {
+            "type": "object",
+            "required": [
+                "query"
+            ],
+            "properties": {
+                "query": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.simpleProduct": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "picture": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
                 }
             }
         },
