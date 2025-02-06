@@ -130,7 +130,7 @@ func (s *ProductCatalogServiceImpl) ListProducts(ctx context.Context, req *produ
 // GetProduct implements the ProductCatalogServiceImpl interface.
 func (s *ProductCatalogServiceImpl) GetProduct(ctx context.Context, req *product.GetProductReq) (resp *product.GetProductResp, err error) {
 	klog.Infof("GetProduct: %v", req)
-	prod, err := model.NewProductQuery(ctx, dal.DB).GetById(req.GetId())
+	prod, err := model.NewCachedProductQuery(ctx, dal.DB, dal.RedisClient).GetById(req.GetId())
 	if err != nil {
 		klog.Error(err)
 		return

@@ -16,8 +16,9 @@ import (
 func main() {
 	// log
 	klog.SetLevel(conf.LogLevel())
-	// mysql
+	// dal
 	dal.MysqlInit()
+	dal.RedisInit()
 	// kitex
 	opts := kitexInit()
 	svr := product.NewServer(new(ProductCatalogServiceImpl), opts...)
