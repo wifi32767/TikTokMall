@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"net/http"
 
 	"github.com/cloudwego/kitex/pkg/kerrors"
@@ -24,7 +25,7 @@ func (s *UserServiceImpl) Register(ctx context.Context, req *user.RegisterReq) (
 	if err == nil {
 		err = kerrors.NewBizStatusError(http.StatusBadRequest, "user already exists")
 		return
-	} else if err != gorm.ErrRecordNotFound {
+	} else if !errors.Is(err, gorm.ErrRecordNotFound) {
 		klog.Error(err)
 		return
 	}
@@ -50,8 +51,8 @@ func (s *UserServiceImpl) Login(ctx context.Context, req *user.LoginReq) (resp *
 	klog.Infof("Login: %v", req)
 	// 检查用户是否存在
 	usr, err := model.GetUserByUsername(dal.DB, ctx, req.GetUsername())
-	if err == gorm.ErrRecordNotFound {
-		err = kerrors.NewBizStatusError(http.StatusBadRequest, "user not found")
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = kerrors.NewBizStatusError(http.StatusNotFound, "user not found")
 		return
 	} else if err != nil {
 		klog.Error(err)
@@ -77,8 +78,8 @@ func (s *UserServiceImpl) Delete(ctx context.Context, req *user.DeleteReq) (resp
 	klog.Infof("Delete: %v", req)
 	// 检查用户是否存在
 	usr, err := model.GetUserByUsername(dal.DB, ctx, req.GetUsername())
-	if err == gorm.ErrRecordNotFound {
-		err = kerrors.NewBizStatusError(http.StatusBadRequest, "user not found")
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = kerrors.NewBizStatusError(http.StatusNotFound, "user not found")
 		return
 	} else if err != nil {
 		klog.Error(err)
@@ -107,8 +108,8 @@ func (s *UserServiceImpl) Update(ctx context.Context, req *user.UpdateReq) (resp
 	klog.Infof("Update: %v", req)
 	// 检查用户是否存在
 	usr, err := model.GetUserByUsername(dal.DB, ctx, req.GetUsername())
-	if err == gorm.ErrRecordNotFound {
-		err = kerrors.NewBizStatusError(http.StatusBadRequest, "user not found")
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = kerrors.NewBizStatusError(http.StatusNotFound, "user not found")
 		return
 	} else if err != nil {
 		klog.Error(err)

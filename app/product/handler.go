@@ -2,7 +2,10 @@ package main
 
 import (
 	"context"
+	"errors"
+	"net/http"
 
+	"github.com/cloudwego/kitex/pkg/kerrors"
 	"github.com/cloudwego/kitex/pkg/klog"
 	"github.com/wifi32767/TikTokMall/app/product/biz/dal"
 	"github.com/wifi32767/TikTokMall/app/product/biz/model"
@@ -63,6 +66,9 @@ func (s *ProductCatalogServiceImpl) UpdateProduct(ctx context.Context, req *prod
 		prod.Categories = append(prod.Categories, *category)
 	}
 	err = model.NewProductQuery(ctx, dal.DB).Update(prod)
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = kerrors.NewBizStatusError(http.StatusNotFound, "product not found")
+	}
 	return
 }
 
@@ -70,6 +76,9 @@ func (s *ProductCatalogServiceImpl) UpdateProduct(ctx context.Context, req *prod
 func (s *ProductCatalogServiceImpl) DeleteProduct(ctx context.Context, req *product.DeleteProductReq) (resp *product.Empty, err error) {
 	klog.Infof("DeleteProduct: %v", req)
 	err = model.NewProductQuery(ctx, dal.DB).Delete(req.GetId())
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = kerrors.NewBizStatusError(http.StatusNotFound, "product not found")
+	}
 	return
 }
 
@@ -133,6 +142,9 @@ func (s *ProductCatalogServiceImpl) GetProduct(ctx context.Context, req *product
 	prod, err := model.NewCachedProductQuery(ctx, dal.DB, dal.RedisClient).GetById(req.GetId())
 	if err != nil {
 		klog.Error(err)
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			err = kerrors.NewBizStatusError(http.StatusNotFound, "product not found")
+		}
 		return
 	}
 	resp = &product.GetProductResp{

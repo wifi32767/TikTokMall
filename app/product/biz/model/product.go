@@ -38,13 +38,19 @@ func (p ProductQuery) Create(product *Product) error {
 }
 
 func (p ProductQuery) Update(product *Product) error {
-	err := p.db.WithContext(p.ctx).Updates(product).Error
-	return err
+	res := p.db.WithContext(p.ctx).Where("id = ?", product.ID).Updates(product)
+	if res.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return res.Error
 }
 
 func (p ProductQuery) Delete(id uint32) error {
-	err := p.db.WithContext(p.ctx).Delete(&Product{}, id).Error
-	return err
+	res := p.db.WithContext(p.ctx).Delete(&Product{}, id)
+	if res.RowsAffected == 0 {
+		return gorm.ErrRecordNotFound
+	}
+	return res.Error
 }
 
 func (p ProductQuery) GetById(id uint32) (*Product, error) {
