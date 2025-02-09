@@ -6,6 +6,7 @@ import (
 	consul "github.com/kitex-contrib/registry-consul"
 	"github.com/wifi32767/TikTokMall/backend/conf"
 	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/auth/authservice"
+	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/cart/cartservice"
 	productservice "github.com/wifi32767/TikTokMall/rpc/kitex_gen/product/productcatalogservice"
 	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/user/userservice"
 )
@@ -14,6 +15,7 @@ var (
 	AuthClient    authservice.Client
 	UserClient    userservice.Client
 	ProductClient productservice.Client
+	CartClient    cartservice.Client
 )
 
 func Init() {
@@ -33,6 +35,11 @@ func Init() {
 	)
 	ProductClient = productservice.MustNewClient(
 		"product",
+		client.WithResolver(r),
+		client.WithTransportProtocol(transport.GRPC),
+	)
+	CartClient = cartservice.MustNewClient(
+		"cart",
 		client.WithResolver(r),
 		client.WithTransportProtocol(transport.GRPC),
 	)

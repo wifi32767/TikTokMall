@@ -1,4 +1,24 @@
 definitions:
+  handler.addItemReq:
+    properties:
+      item:
+        $ref: '#/definitions/handler.cartItem'
+      userid:
+        type: integer
+    required:
+    - item
+    - userid
+    type: object
+  handler.cartItem:
+    properties:
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+    required:
+    - product_id
+    - quantity
+    type: object
   handler.errorReturn:
     properties:
       error:
@@ -92,6 +112,13 @@ definitions:
     - old_password
     - username
     type: object
+  handler.userIdReq:
+    properties:
+      userid:
+        type: integer
+    required:
+    - userid
+    type: object
   handler.useridInput:
     properties:
       userid:
@@ -128,6 +155,88 @@ definitions:
 info:
   contact: {}
 paths:
+  /cart/additem:
+    post:
+      description: 添加商品到指定用户的购物车
+      parameters:
+      - description: 商品和用户信息
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.addItemReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 添加商品到购物车
+      tags:
+      - cart
+  /cart/empty:
+    post:
+      description: 清空指定用户的购物车
+      parameters:
+      - description: 用户id
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.userIdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 清空购物车
+      tags:
+      - cart
+  /cart/get:
+    get:
+      description: 获取指定用户的购物车中的商品
+      parameters:
+      - description: 用户id
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.userIdReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 购物车中的商品
+          schema:
+            items:
+              $ref: '#/definitions/handler.cartItem'
+            type: array
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 获取购物车
+      tags:
+      - cart
   /product/create:
     post:
       description: 创建一个新的商品

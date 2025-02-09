@@ -43,6 +43,11 @@ func Register(r *gin.Engine) {
 	product.GET("/get", handler.ProductGet)
 	product.GET("/search", handler.ProductSearch)
 
+	cart := api.Group("/cart")
+	cart.POST("/additem", handler.CartAddItem)
+	cart.POST("/empty", handler.CartEmpty)
+	cart.GET("/get", handler.CartGet)
+
 	r.GET("/ping", Ping)
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

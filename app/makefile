@@ -9,3 +9,7 @@ gen-user:
 .PHONY: gen-product
 gen-product:
 	@cd product && kitex -service productservice -module "github.com/wifi32767/TikTokMall/app/product" -I ../../idl -use "github.com/wifi32767/TikTokMall/rpc/kitex_gen" ../../idl/product.proto
+
+.PHONY: gen-cart
+gen-cart:
+	@cd cart && kitex -service cartservice -module "github.com/wifi32767/TikTokMall/app/cart" -I ../../idl -use "github.com/wifi32767/TikTokMall/rpc/kitex_gen" ../../idl/cart.proto

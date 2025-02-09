@@ -15,6 +15,132 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/cart/additem": {
+            "post": {
+                "description": "添加商品到指定用户的购物车",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "添加商品到购物车",
+                "parameters": [
+                    {
+                        "description": "商品和用户信息",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.addItemReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/empty": {
+            "post": {
+                "description": "清空指定用户的购物车",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "清空购物车",
+                "parameters": [
+                    {
+                        "description": "用户id",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.userIdReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
+        "/cart/get": {
+            "get": {
+                "description": "获取指定用户的购物车中的商品",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "cart"
+                ],
+                "summary": "获取购物车",
+                "parameters": [
+                    {
+                        "description": "用户id",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.userIdReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "购物车中的商品",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/handler.cartItem"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
         "/product/create": {
             "post": {
                 "description": "创建一个新的商品",
@@ -616,6 +742,36 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "handler.addItemReq": {
+            "type": "object",
+            "required": [
+                "item",
+                "userid"
+            ],
+            "properties": {
+                "item": {
+                    "$ref": "#/definitions/handler.cartItem"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.cartItem": {
+            "type": "object",
+            "required": [
+                "product_id",
+                "quantity"
+            ],
+            "properties": {
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
         "handler.errorReturn": {
             "type": "object",
             "properties": {
@@ -753,6 +909,17 @@ const docTemplate = `{
                 },
                 "username": {
                     "type": "string"
+                }
+            }
+        },
+        "handler.userIdReq": {
+            "type": "object",
+            "required": [
+                "userid"
+            ],
+            "properties": {
+                "userid": {
+                    "type": "integer"
                 }
             }
         },
