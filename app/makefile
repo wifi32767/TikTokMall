@@ -13,3 +13,7 @@ gen-product:
 .PHONY: gen-cart
 gen-cart:
 	@cd cart && kitex -service cartservice -module "github.com/wifi32767/TikTokMall/app/cart" -I ../../idl -use "github.com/wifi32767/TikTokMall/rpc/kitex_gen" ../../idl/cart.proto
+
+.PHONY: gen-order
+gen-order:
+	@cd order && kitex -service orderservice -module "github.com/wifi32767/TikTokMall/app/order" -I ../../idl -use "github.com/wifi32767/TikTokMall/rpc/kitex_gen" ../../idl/order.proto

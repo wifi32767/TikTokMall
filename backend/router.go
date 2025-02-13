@@ -24,6 +24,7 @@ func Register(r *gin.Engine) {
 	test.GET("/auth/verify", test_handler.VerifyToken)
 	test.GET("/auth/delete", test_handler.DeleteToken)
 	test.GET("/auth/deleteall", test_handler.DeleteAllTokens)
+	test.GET("/order/update", test_handler.UpdateOrderState)
 
 	api := r.Group("/api")
 
@@ -47,6 +48,11 @@ func Register(r *gin.Engine) {
 	cart.POST("/additem", handler.CartAddItem)
 	cart.POST("/empty", handler.CartEmpty)
 	cart.GET("/get", handler.CartGet)
+
+	order := api.Group("order")
+	order.POST("/place", handler.OrderPlace)
+	order.GET("/list", handler.OrderList)
+	order.PUT("/cancel", handler.OrderCancel)
 
 	r.GET("/ping", Ping)
 

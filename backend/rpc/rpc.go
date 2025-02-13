@@ -7,6 +7,7 @@ import (
 	"github.com/wifi32767/TikTokMall/backend/conf"
 	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/auth/authservice"
 	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/cart/cartservice"
+	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/order/orderservice"
 	productservice "github.com/wifi32767/TikTokMall/rpc/kitex_gen/product/productcatalogservice"
 	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/user/userservice"
 )
@@ -16,6 +17,7 @@ var (
 	UserClient    userservice.Client
 	ProductClient productservice.Client
 	CartClient    cartservice.Client
+	OrderClient   orderservice.Client
 )
 
 func Init() {
@@ -40,6 +42,11 @@ func Init() {
 	)
 	CartClient = cartservice.MustNewClient(
 		"cart",
+		client.WithResolver(r),
+		client.WithTransportProtocol(transport.GRPC),
+	)
+	OrderClient = orderservice.MustNewClient(
+		"order",
 		client.WithResolver(r),
 		client.WithTransportProtocol(transport.GRPC),
 	)

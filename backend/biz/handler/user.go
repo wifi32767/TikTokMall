@@ -29,15 +29,15 @@ type errorReturn struct {
 	Error string
 }
 
-// @Summary 注册账户
-// @Description 注册一个新的账户
-// @Tags user
-// @Produce json
-// @Param input body registerInput true "注册信息"
-// @Success 200 {object} useridInput "用户id"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /user/register [post]
+//	@Summary		注册账户
+//	@Description	注册一个新的账户
+//	@Tags			user
+//	@Produce		json
+//	@Param			input	body		registerInput	true	"注册信息"
+//	@Success		200		{object}	useridInput		"用户id"
+//	@Failure		400		{object}	errorReturn		"请求格式错误"
+//	@Failure		500		{object}	errorReturn		"服务器错误"
+//	@Router			/user/register [post]
 func UserRegister(c *gin.Context) {
 	input := registerInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -57,15 +57,15 @@ func UserRegister(c *gin.Context) {
 	})
 }
 
-// @Summary 登录
-// @Description 登录一个账户
-// @Tags user
-// @Produce json
-// @Param input body registerInput true "登录信息"
-// @Success 200 "成功"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /user/login [post]
+//	@Summary		登录
+//	@Description	登录一个账户
+//	@Tags			user
+//	@Produce		json
+//	@Param			input	body	registerInput	true	"登录信息"
+//	@Success		200		"成功"
+//	@Failure		400		{object}	errorReturn	"请求格式错误"
+//	@Failure		500		{object}	errorReturn	"服务器错误"
+//	@Router			/user/login [post]
 func UserLogin(c *gin.Context) {
 	input := registerInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -91,14 +91,14 @@ func UserLogin(c *gin.Context) {
 	c.Status(http.StatusOK)
 }
 
-// @Summary 登出
-// @Description 登出一个账户
-// @Tags user
-// @Produce json
-// @Success 200 "成功"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /user/logout [post]
+//	@Summary		登出
+//	@Description	登出一个账户
+//	@Tags			user
+//	@Produce		json
+//	@Success		200	"成功"
+//	@Failure		400	{object}	errorReturn	"请求格式错误"
+//	@Failure		500	{object}	errorReturn	"服务器错误"
+//	@Router			/user/logout [post]
 func UserLogout(c *gin.Context) {
 	_, err := rpc.AuthClient.DeleteToken(c.Request.Context(), &auth.DeleteTokenReq{
 		Token: c.MustGet("token").(string),
@@ -110,14 +110,14 @@ func UserLogout(c *gin.Context) {
 	c.Status(http.StatusOK)
 }
 
-// @Summary 删除账户
-// @Description 删除一个账户
-// @Tags user
-// @Produce json
-// @Success 200 "成功"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /user/delete [delete]
+//	@Summary		删除账户
+//	@Description	删除一个账户
+//	@Tags			user
+//	@Produce		json
+//	@Success		200	"成功"
+//	@Failure		400	{object}	errorReturn	"请求格式错误"
+//	@Failure		500	{object}	errorReturn	"服务器错误"
+//	@Router			/user/delete [delete]
 func UserDelete(c *gin.Context) {
 	input := registerInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -139,15 +139,15 @@ func UserDelete(c *gin.Context) {
 	c.Status(http.StatusOK)
 }
 
-// @Summary 修改密码
-// @Description 修改一个账户的密码
-// @Tags user
-// @Produce json
-// @Param input body updateInput true "修改信息"
-// @Success 200 "成功"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /user/update [put]
+//	@Summary		修改密码
+//	@Description	修改一个账户的密码
+//	@Tags			user
+//	@Produce		json
+//	@Param			input	body	updateInput	true	"修改信息"
+//	@Success		200		"成功"
+//	@Failure		400		{object}	errorReturn	"请求格式错误"
+//	@Failure		500		{object}	errorReturn	"服务器错误"
+//	@Router			/user/update [put]
 func UserUpdate(c *gin.Context) {
 	input := updateInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {

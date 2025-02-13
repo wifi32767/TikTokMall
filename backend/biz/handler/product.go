@@ -40,15 +40,15 @@ type searchInput struct {
 	Query string `json:"query" binding:"required"`
 }
 
-// @Summary 创建商品
-// @Description 创建一个新的商品
-// @Tags product
-// @Produce json
-// @Param input body productCreateInput true "商品信息"
-// @Success 200 {object} idInput "商品id
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /product/create [post]
+//	@Summary		创建商品
+//	@Description	创建一个新的商品
+//	@Tags			product
+//	@Produce		json
+//	@Param			input	body		productCreateInput	true	"商品信息"
+//	@Success		200		{object}	idInput				"商品id
+//	@Failure		400		{object}	errorReturn			"请求格式错误"
+//	@Failure		500		{object}	errorReturn			"服务器错误"
+//	@Router			/product/create [post]
 func ProductCreate(c *gin.Context) {
 	input := productCreateInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -71,15 +71,15 @@ func ProductCreate(c *gin.Context) {
 	})
 }
 
-// @Summary 更新商品信息
-// @Description 更新商品信息
-// @Tags product
-// @Produce json
-// @Param input body simpleProduct true "商品信息"
-// @Success 200 "成功"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /product/update [put]
+//	@Summary		更新商品信息
+//	@Description	更新商品信息
+//	@Tags			product
+//	@Produce		json
+//	@Param			input	body	simpleProduct	true	"商品信息"
+//	@Success		200		"成功"
+//	@Failure		400		{object}	errorReturn	"请求格式错误"
+//	@Failure		500		{object}	errorReturn	"服务器错误"
+//	@Router			/product/update [put]
 func ProductUpdate(c *gin.Context) {
 	input := simpleProduct{}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -101,15 +101,15 @@ func ProductUpdate(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// @Summary 删除商品
-// @Description 删除商品
-// @Tags product
-// @Produce json
-// @Param input body idInput true "商品id"
-// @Success 200 "成功"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /product/delete [delete]
+//	@Summary		删除商品
+//	@Description	删除商品
+//	@Tags			product
+//	@Produce		json
+//	@Param			input	body	idInput	true	"商品id"
+//	@Success		200		"成功"
+//	@Failure		400		{object}	errorReturn	"请求格式错误"
+//	@Failure		500		{object}	errorReturn	"服务器错误"
+//	@Router			/product/delete [delete]
 func ProductDelete(c *gin.Context) {
 	input := idInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -126,15 +126,15 @@ func ProductDelete(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-// @Summary 商品列表
-// @Description 获取指定类别的商品列表，不指定类别返回全部商品的列表
-// @Tags product
-// @Produce json
-// @Param input body productListInput true "商品列表信息"
-// @Success 200 {object} productListInput "商品列表"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /product/list [get]
+//	@Summary		商品列表
+//	@Description	获取指定类别的商品列表，不指定类别返回全部商品的列表
+//	@Tags			product
+//	@Produce		json
+//	@Param			input	body		productListInput	true	"商品列表信息"
+//	@Success		200		{object}	productListInput	"商品列表"
+//	@Failure		400		{object}	errorReturn			"请求格式错误"
+//	@Failure		500		{object}	errorReturn			"服务器错误"
+//	@Router			/product/list [get]
 func ProductList(c *gin.Context) {
 	input := productListInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -166,15 +166,15 @@ func ProductList(c *gin.Context) {
 	})
 }
 
-// @Summary 获取商品信息
-// @Description 获取单个商品信息
-// @Tags product
-// @Produce json
-// @Param input body idInput true "商品id"
-// @Success 200 {object} simpleProduct "商品信息"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /product/get [get]
+//	@Summary		获取商品信息
+//	@Description	获取单个商品信息
+//	@Tags			product
+//	@Produce		json
+//	@Param			input	body		idInput			true	"商品id"
+//	@Success		200		{object}	simpleProduct	"商品信息"
+//	@Failure		400		{object}	errorReturn		"请求格式错误"
+//	@Failure		500		{object}	errorReturn		"服务器错误"
+//	@Router			/product/get [get]
 func ProductGet(c *gin.Context) {
 	input := idInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {
@@ -201,15 +201,15 @@ func ProductGet(c *gin.Context) {
 	})
 }
 
-// @Summary 商品搜索
-// @Description 搜索在名字和描述中含有关键词的商品
-// @Tags product
-// @Produce json
-// @Param input body searchInput true "搜索关键词"
-// @Success 200 {object} simpleProduct "商品信息"
-// @Failure 400 {object} errorReturn "请求格式错误"
-// @Failure 500 {object} errorReturn "服务器错误"
-// @Router /product/search [get]
+//	@Summary		商品搜索
+//	@Description	搜索在名字和描述中含有关键词的商品
+//	@Tags			product
+//	@Produce		json
+//	@Param			input	body		searchInput		true	"搜索关键词"
+//	@Success		200		{object}	simpleProduct	"商品信息"
+//	@Failure		400		{object}	errorReturn		"请求格式错误"
+//	@Failure		500		{object}	errorReturn		"服务器错误"
+//	@Router			/product/search [get]
 func ProductSearch(c *gin.Context) {
 	input := searchInput{}
 	if err := c.ShouldBindJSON(&input); err != nil {
