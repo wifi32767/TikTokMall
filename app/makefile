@@ -17,3 +17,11 @@ gen-cart:
 .PHONY: gen-order
 gen-order:
 	@cd order && kitex -service orderservice -module "github.com/wifi32767/TikTokMall/app/order" -I ../../idl -use "github.com/wifi32767/TikTokMall/rpc/kitex_gen" ../../idl/order.proto
+
+.PHONY: gen-payment
+gen-payment:
+	@cd payment && kitex -service paymentservice -module "github.com/wifi32767/TikTokMall/app/payment" -I ../../idl -use "github.com/wifi32767/TikTokMall/rpc/kitex_gen" ../../idl/payment.proto
+
+.PHONY: gen-checkout
+gen-checkout:
+	@cd checkout && kitex -service checkoutservice -module "github.com/wifi32767/TikTokMall/app/checkout" -I ../../idl -use "github.com/wifi32767/TikTokMall/rpc/kitex_gen" ../../idl/checkout.proto
