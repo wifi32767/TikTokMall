@@ -10,17 +10,17 @@ import (
 )
 
 type PaymentChargeReq struct {
-	UserId     uint32
-	OrderId    string `json:"order_id"`
-	Amount     float32
-	CreditCard CreditCard
+	UserId     uint32     `json:"user_id" binding:"required"`
+	OrderId    string     `json:"order_id" binding:"required"`
+	Amount     float32    `json:"amount" binding:"required"`
+	CreditCard CreditCard `json:"credit_card" binding:"required"`
 }
 
 type CreditCard struct {
-	CreditCardNumber          string `json:"credit_card_number"`
-	CreditCardCvv             int32  `json:"credit_card_cvv"`
-	CreditCardExpirationMonth int32  `json:"credit_card_expiration_month"`
-	CreditCardExpirationYear  int32  `json:"credit_card_expiration_year"`
+	CreditCardNumber          string `json:"credit_card_number" binding:"required"`
+	CreditCardCvv             int32  `json:"credit_card_cvv" binding:"required"`
+	CreditCardExpirationMonth int32  `json:"credit_card_expiration_month" binding:"required"`
+	CreditCardExpirationYear  int32  `json:"credit_card_expiration_year" binding:"required"`
 }
 
 func PaymentCharge(c *gin.Context) {

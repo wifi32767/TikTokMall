@@ -17,3 +17,11 @@ gen-cart:
 .PHONY: gen-order
 gen-order:
 	@kitex -module "github.com/wifi32767/TikTokMall" -I ../idl ../idl/order.proto
+
+.PHONY: gen-payment
+gen-payment:
+	@kitex -module "github.com/wifi32767/TikTokMall" -I ../idl ../idl/payment.proto
+
+.PHONY: gen-checkout
+gen-checkout:
+	@kitex -module "github.com/wifi32767/TikTokMall" -I ../idl ../idl/checkout.proto

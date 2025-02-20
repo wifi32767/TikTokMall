@@ -15,6 +15,16 @@ type updateOrderStateReq struct {
 	State   uint32
 }
 
+// @Summary		更新订单状态
+// @Description	更新订单状态
+// @Tags			test_order
+// @Accept			json
+// @Produce		json
+// @Param			req	body	updateOrderStateReq	true	"请求参数"
+// @Success		200
+// @Failure		400
+// @Failure		500
+// @Router			/test/order/update [GET]
 func UpdateOrderState(c *gin.Context) {
 	var req updateOrderStateReq
 	if err := c.ShouldBindJSON(&req); err != nil {

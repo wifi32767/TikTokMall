@@ -1,4 +1,50 @@
 definitions:
+  handler.CheckoutReq:
+    properties:
+      address:
+        properties:
+          city:
+            type: string
+          country:
+            type: string
+          state:
+            type: string
+          streetAddress:
+            type: string
+          zipCode:
+            type: integer
+        type: object
+      credit_card:
+        properties:
+          credit_card_cvv:
+            type: integer
+          credit_card_expiration_month:
+            type: integer
+          credit_card_expiration_year:
+            type: integer
+          credit_card_number:
+            type: string
+        required:
+        - credit_card_cvv
+        - credit_card_expiration_month
+        - credit_card_expiration_year
+        - credit_card_number
+        type: object
+      email:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - email
+    - user_id
+    type: object
+  handler.CheckoutResp:
+    properties:
+      order_id:
+        type: string
+      transaction_id:
+        type: string
+    type: object
   handler.OrderIdReq:
     properties:
       order_id:
@@ -231,6 +277,15 @@ definitions:
     required:
     - token
     type: object
+  test_handler.updateOrderStateReq:
+    properties:
+      order_id:
+        type: string
+      state:
+        type: integer
+      userId:
+        type: integer
+    type: object
   test_handler.useridInput:
     properties:
       userid:
@@ -248,6 +303,36 @@ definitions:
 info:
   contact: {}
 paths:
+  /api/checkout:
+    post:
+      consumes:
+      - application/json
+      description: 结算购物车，生成订单并支付
+      parameters:
+      - description: 结算请求
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CheckoutReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+          schema:
+            $ref: '#/definitions/handler.CheckoutResp'
+        "400":
+          description: 请求信息错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 结算
+      tags:
+      - Checkout
   /cart/additem:
     post:
       description: 添加商品到指定用户的购物车
@@ -682,6 +767,30 @@ paths:
       summary: 验证token
       tags:
       - test/auth
+  /test/order/update:
+    get:
+      consumes:
+      - application/json
+      description: 更新订单状态
+      parameters:
+      - description: 请求参数
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/test_handler.updateOrderStateReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+      summary: 更新订单状态
+      tags:
+      - test_order
   /user/delete:
     delete:
       description: 删除一个账户

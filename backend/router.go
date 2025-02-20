@@ -25,6 +25,7 @@ func Register(r *gin.Engine) {
 	test.GET("/auth/delete", test_handler.DeleteToken)
 	test.GET("/auth/deleteall", test_handler.DeleteAllTokens)
 	test.GET("/order/update", test_handler.UpdateOrderState)
+	test.GET("/payment/charge", test_handler.PaymentCharge)
 
 	api := r.Group("/api")
 
@@ -53,6 +54,8 @@ func Register(r *gin.Engine) {
 	order.POST("/place", handler.OrderPlace)
 	order.GET("/list", handler.OrderList)
 	order.PUT("/cancel", handler.OrderCancel)
+
+	api.POST("/checkout", handler.Checkout)
 
 	r.GET("/ping", Ping)
 

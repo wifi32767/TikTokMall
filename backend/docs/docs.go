@@ -15,6 +15,52 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/checkout": {
+            "post": {
+                "description": "结算购物车，生成订单并支付",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Checkout"
+                ],
+                "summary": "结算",
+                "parameters": [
+                    {
+                        "description": "结算请求",
+                        "name": "input",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.CheckoutReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功",
+                        "schema": {
+                            "$ref": "#/definitions/handler.CheckoutResp"
+                        }
+                    },
+                    "400": {
+                        "description": "请求信息错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
         "/cart/additem": {
             "post": {
                 "description": "添加商品到指定用户的购物车",
@@ -683,6 +729,43 @@ const docTemplate = `{
                 }
             }
         },
+        "/test/order/update": {
+            "get": {
+                "description": "更新订单状态",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "test_order"
+                ],
+                "summary": "更新订单状态",
+                "parameters": [
+                    {
+                        "description": "请求参数",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/test_handler.updateOrderStateReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/user/delete": {
             "delete": {
                 "description": "删除一个账户",
@@ -866,6 +949,75 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "handler.CheckoutReq": {
+            "type": "object",
+            "required": [
+                "email",
+                "user_id"
+            ],
+            "properties": {
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "city": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "streetAddress": {
+                            "type": "string"
+                        },
+                        "zipCode": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "credit_card": {
+                    "type": "object",
+                    "required": [
+                        "credit_card_cvv",
+                        "credit_card_expiration_month",
+                        "credit_card_expiration_year",
+                        "credit_card_number"
+                    ],
+                    "properties": {
+                        "credit_card_cvv": {
+                            "type": "integer"
+                        },
+                        "credit_card_expiration_month": {
+                            "type": "integer"
+                        },
+                        "credit_card_expiration_year": {
+                            "type": "integer"
+                        },
+                        "credit_card_number": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "email": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.CheckoutResp": {
+            "type": "object",
+            "properties": {
+                "order_id": {
+                    "type": "string"
+                },
+                "transaction_id": {
+                    "type": "string"
+                }
+            }
+        },
         "handler.OrderIdReq": {
             "type": "object",
             "required": [
@@ -1213,6 +1365,20 @@ const docTemplate = `{
             "properties": {
                 "token": {
                     "type": "string"
+                }
+            }
+        },
+        "test_handler.updateOrderStateReq": {
+            "type": "object",
+            "properties": {
+                "order_id": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
                 }
             }
         },
