@@ -19,7 +19,7 @@ type CartItem struct {
 type Cart []*CartItem
 
 func (c CartItem) TableName() string {
-	return "cart"
+	return "carts"
 }
 
 func AddItem(db *gorm.DB, ctx context.Context, cart *CartItem) error {

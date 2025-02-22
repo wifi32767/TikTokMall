@@ -11,5 +11,5 @@ type OrderItem struct {
 }
 
 func (o *OrderItem) TableName() string {
-	return "order_item"
+	return "order_items"
 }

@@ -87,7 +87,7 @@ func (s *CheckoutServiceImpl) Checkout(ctx context.Context, req *checkout.Checko
 	_, err = rpc.OrderClient.UpdateOrderState(ctx, &order.UpdateOrderStateReq{
 		UserId:  req.GetUserId(),
 		OrderId: orderRes.GetOrder().GetOrderId(),
-		State:   1,
+		State:   "paid",
 	})
 	if err != nil {
 		return

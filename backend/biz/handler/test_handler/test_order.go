@@ -10,9 +10,9 @@ import (
 )
 
 type updateOrderStateReq struct {
-	UserId  uint32
+	UserId  uint32 `json:"user_id"`
 	OrderId string `json:"order_id"`
-	State   uint32
+	State   string `json:"state"`
 }
 
 // @Summary		更新订单状态

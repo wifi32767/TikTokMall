@@ -31,11 +31,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "结算请求",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.CheckoutReq"
+                            "$ref": "#/definitions/handler.checkoutReq"
                         }
                     }
                 ],
@@ -43,7 +43,7 @@ const docTemplate = `{
                     "200": {
                         "description": "成功",
                         "schema": {
-                            "$ref": "#/definitions/handler.CheckoutResp"
+                            "$ref": "#/definitions/handler.checkoutResp"
                         }
                     },
                     "400": {
@@ -74,7 +74,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "商品和用户信息",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -114,7 +114,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "用户id",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -154,7 +154,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "用户id",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -198,11 +198,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "订单id",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.OrderIdReq"
+                            "$ref": "#/definitions/handler.orderIdReq"
                         }
                     }
                 ],
@@ -238,11 +238,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "用户id",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.UserIdReq"
+                            "$ref": "#/definitions/handler.userIdReq"
                         }
                     }
                 ],
@@ -250,7 +250,7 @@ const docTemplate = `{
                     "200": {
                         "description": "订单列表",
                         "schema": {
-                            "$ref": "#/definitions/handler.OrderListRes"
+                            "$ref": "#/definitions/handler.orderListRes"
                         }
                     },
                     "400": {
@@ -281,11 +281,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "订单信息",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.OrderPlaceReq"
+                            "$ref": "#/definitions/handler.orderPlaceReq"
                         }
                     }
                 ],
@@ -293,7 +293,7 @@ const docTemplate = `{
                     "200": {
                         "description": "订单id",
                         "schema": {
-                            "$ref": "#/definitions/handler.OrderIdReq"
+                            "$ref": "#/definitions/handler.orderIdReq"
                         }
                     },
                     "400": {
@@ -324,11 +324,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "商品信息",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.productCreateInput"
+                            "$ref": "#/definitions/handler.productCreateReq"
                         }
                     }
                 ],
@@ -336,7 +336,7 @@ const docTemplate = `{
                     "200": {
                         "description": "商品id",
                         "schema": {
-                            "$ref": "#/definitions/handler.idInput"
+                            "$ref": "#/definitions/handler.idReq"
                         }
                     },
                     "400": {
@@ -367,11 +367,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "商品id",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.idInput"
+                            "$ref": "#/definitions/handler.idReq"
                         }
                     }
                 ],
@@ -407,11 +407,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "商品id",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.idInput"
+                            "$ref": "#/definitions/handler.idReq"
                         }
                     }
                 ],
@@ -450,11 +450,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "商品列表信息",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.productListInput"
+                            "$ref": "#/definitions/handler.productListReq"
                         }
                     }
                 ],
@@ -462,7 +462,7 @@ const docTemplate = `{
                     "200": {
                         "description": "商品列表",
                         "schema": {
-                            "$ref": "#/definitions/handler.productListInput"
+                            "$ref": "#/definitions/handler.productListReq"
                         }
                     },
                     "400": {
@@ -493,11 +493,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "搜索关键词",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.searchInput"
+                            "$ref": "#/definitions/handler.searchReq"
                         }
                     }
                 ],
@@ -536,7 +536,7 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "商品信息",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -776,6 +776,17 @@ const docTemplate = `{
                     "user"
                 ],
                 "summary": "删除账户",
+                "parameters": [
+                    {
+                        "description": "删除信息",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.registerReq"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "成功"
@@ -808,11 +819,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "登录信息",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.registerInput"
+                            "$ref": "#/definitions/handler.registerReq"
                         }
                     }
                 ],
@@ -877,11 +888,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "注册信息",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.registerInput"
+                            "$ref": "#/definitions/handler.registerReq"
                         }
                     }
                 ],
@@ -889,7 +900,7 @@ const docTemplate = `{
                     "200": {
                         "description": "用户id",
                         "schema": {
-                            "$ref": "#/definitions/handler.useridInput"
+                            "$ref": "#/definitions/handler.userIdReq"
                         }
                     },
                     "400": {
@@ -920,11 +931,11 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "description": "修改信息",
-                        "name": "input",
+                        "name": "req",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/handler.updateInput"
+                            "$ref": "#/definitions/handler.updateReq"
                         }
                     }
                 ],
@@ -949,7 +960,64 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "handler.CheckoutReq": {
+        "handler.addItemReq": {
+            "type": "object",
+            "required": [
+                "item",
+                "userid"
+            ],
+            "properties": {
+                "item": {
+                    "$ref": "#/definitions/handler.cartItem"
+                },
+                "userid": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.address": {
+            "type": "object",
+            "required": [
+                "city",
+                "country",
+                "state",
+                "street_address",
+                "zip_code"
+            ],
+            "properties": {
+                "city": {
+                    "type": "string"
+                },
+                "country": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "street_address": {
+                    "type": "string"
+                },
+                "zip_code": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.cartItem": {
+            "type": "object",
+            "required": [
+                "product_id",
+                "quantity"
+            ],
+            "properties": {
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.checkoutReq": {
             "type": "object",
             "required": [
                 "email",
@@ -957,24 +1025,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "address": {
-                    "type": "object",
-                    "properties": {
-                        "city": {
-                            "type": "string"
-                        },
-                        "country": {
-                            "type": "string"
-                        },
-                        "state": {
-                            "type": "string"
-                        },
-                        "streetAddress": {
-                            "type": "string"
-                        },
-                        "zipCode": {
-                            "type": "integer"
-                        }
-                    }
+                    "$ref": "#/definitions/handler.address"
                 },
                 "credit_card": {
                     "type": "object",
@@ -1007,7 +1058,7 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.CheckoutResp": {
+        "handler.checkoutResp": {
             "type": "object",
             "properties": {
                 "order_id": {
@@ -1018,7 +1069,69 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.OrderIdReq": {
+        "handler.errorReturn": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.idReq": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.item": {
+            "type": "object",
+            "required": [
+                "cost",
+                "product_id",
+                "quantity"
+            ],
+            "properties": {
+                "cost": {
+                    "type": "number"
+                },
+                "product_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.orderDetails": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "$ref": "#/definitions/handler.address"
+                },
+                "created_at": {
+                    "description": "时间戳",
+                    "type": "integer"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "order_id": {
+                    "type": "string"
+                },
+                "user_currency": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.orderIdReq": {
             "type": "object",
             "required": [
                 "order_id",
@@ -1033,55 +1146,21 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.OrderListRes": {
+        "handler.orderListRes": {
             "type": "object",
+            "required": [
+                "orders"
+            ],
             "properties": {
                 "orders": {
                     "type": "array",
                     "items": {
-                        "type": "object",
-                        "properties": {
-                            "address": {
-                                "type": "object",
-                                "properties": {
-                                    "city": {
-                                        "type": "string"
-                                    },
-                                    "country": {
-                                        "type": "string"
-                                    },
-                                    "state": {
-                                        "type": "string"
-                                    },
-                                    "streetAddress": {
-                                        "type": "string"
-                                    },
-                                    "zipCode": {
-                                        "type": "integer"
-                                    }
-                                }
-                            },
-                            "createdAt": {
-                                "type": "integer"
-                            },
-                            "email": {
-                                "type": "string"
-                            },
-                            "orderId": {
-                                "type": "string"
-                            },
-                            "userCurrency": {
-                                "type": "string"
-                            },
-                            "userId": {
-                                "type": "integer"
-                            }
-                        }
+                        "$ref": "#/definitions/handler.orderDetails"
                     }
                 }
             }
         },
-        "handler.OrderPlaceReq": {
+        "handler.orderPlaceReq": {
             "type": "object",
             "required": [
                 "items",
@@ -1090,52 +1169,12 @@ const docTemplate = `{
             ],
             "properties": {
                 "address": {
-                    "type": "object",
-                    "required": [
-                        "city",
-                        "country",
-                        "state",
-                        "street_address",
-                        "zip_code"
-                    ],
-                    "properties": {
-                        "city": {
-                            "type": "string"
-                        },
-                        "country": {
-                            "type": "string"
-                        },
-                        "state": {
-                            "type": "string"
-                        },
-                        "street_address": {
-                            "type": "string"
-                        },
-                        "zip_code": {
-                            "type": "integer"
-                        }
-                    }
+                    "$ref": "#/definitions/handler.address"
                 },
                 "items": {
                     "type": "array",
                     "items": {
-                        "type": "object",
-                        "required": [
-                            "cost",
-                            "product_id",
-                            "quantity"
-                        ],
-                        "properties": {
-                            "cost": {
-                                "type": "number"
-                            },
-                            "product_id": {
-                                "type": "integer"
-                            },
-                            "quantity": {
-                                "type": "integer"
-                            }
-                        }
+                        "$ref": "#/definitions/handler.item"
                     }
                 },
                 "user_currency": {
@@ -1146,67 +1185,7 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.UserIdReq": {
-            "type": "object",
-            "required": [
-                "user_id"
-            ],
-            "properties": {
-                "user_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "handler.addItemReq": {
-            "type": "object",
-            "required": [
-                "item",
-                "userid"
-            ],
-            "properties": {
-                "item": {
-                    "$ref": "#/definitions/handler.cartItem"
-                },
-                "userid": {
-                    "type": "integer"
-                }
-            }
-        },
-        "handler.cartItem": {
-            "type": "object",
-            "required": [
-                "product_id",
-                "quantity"
-            ],
-            "properties": {
-                "product_id": {
-                    "type": "integer"
-                },
-                "quantity": {
-                    "type": "integer"
-                }
-            }
-        },
-        "handler.errorReturn": {
-            "type": "object",
-            "properties": {
-                "error": {
-                    "type": "string"
-                }
-            }
-        },
-        "handler.idInput": {
-            "type": "object",
-            "required": [
-                "id"
-            ],
-            "properties": {
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "handler.productCreateInput": {
+        "handler.productCreateReq": {
             "type": "object",
             "required": [
                 "description",
@@ -1235,11 +1214,11 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.productListInput": {
+        "handler.productListReq": {
             "type": "object",
             "required": [
                 "page",
-                "pagesize"
+                "page_size"
             ],
             "properties": {
                 "category_name": {
@@ -1248,12 +1227,12 @@ const docTemplate = `{
                 "page": {
                     "type": "integer"
                 },
-                "pagesize": {
+                "page_size": {
                     "type": "integer"
                 }
             }
         },
-        "handler.registerInput": {
+        "handler.registerReq": {
             "type": "object",
             "required": [
                 "password",
@@ -1268,7 +1247,7 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.searchInput": {
+        "handler.searchReq": {
             "type": "object",
             "required": [
                 "query"
@@ -1308,7 +1287,7 @@ const docTemplate = `{
                 }
             }
         },
-        "handler.updateInput": {
+        "handler.updateReq": {
             "type": "object",
             "required": [
                 "new_password",
@@ -1330,21 +1309,10 @@ const docTemplate = `{
         "handler.userIdReq": {
             "type": "object",
             "required": [
-                "userid"
+                "user_id"
             ],
             "properties": {
-                "userid": {
-                    "type": "integer"
-                }
-            }
-        },
-        "handler.useridInput": {
-            "type": "object",
-            "required": [
-                "userid"
-            ],
-            "properties": {
-                "userid": {
+                "user_id": {
                     "type": "integer"
                 }
             }

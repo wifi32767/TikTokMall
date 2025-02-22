@@ -14,7 +14,7 @@ type Category struct {
 }
 
 func (c Category) TableName() string {
-	return "category"
+	return "categories"
 }
 
 type CategoryQuery struct {

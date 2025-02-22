@@ -12,15 +12,15 @@ import (
 
 type Product struct {
 	gorm.Model
-	Name        string `gorm:"type:varchar(255);not null"`
-	Description string `gorm:"type:text"`
-	Picture     string
+	Name        string     `gorm:"type:varchar(255);not null"`
+	Description string     `gorm:"type:text"`
+	Picture     string     `gorm:"type:mediumtext"`
 	Price       float32    `gorm:"type:decimal(10,2)"`
 	Categories  []Category `gorm:"many2many:product_category"`
 }
 
 func (p Product) TableName() string {
-	return "product"
+	return "products"
 }
 
 type ProductQuery struct {

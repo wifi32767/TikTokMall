@@ -1,19 +1,47 @@
 definitions:
-  handler.CheckoutReq:
+  handler.addItemReq:
+    properties:
+      item:
+        $ref: '#/definitions/handler.cartItem'
+      userid:
+        type: integer
+    required:
+    - item
+    - userid
+    type: object
+  handler.address:
+    properties:
+      city:
+        type: string
+      country:
+        type: string
+      state:
+        type: string
+      street_address:
+        type: string
+      zip_code:
+        type: integer
+    required:
+    - city
+    - country
+    - state
+    - street_address
+    - zip_code
+    type: object
+  handler.cartItem:
+    properties:
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+    required:
+    - product_id
+    - quantity
+    type: object
+  handler.checkoutReq:
     properties:
       address:
-        properties:
-          city:
-            type: string
-          country:
-            type: string
-          state:
-            type: string
-          streetAddress:
-            type: string
-          zipCode:
-            type: integer
-        type: object
+        $ref: '#/definitions/handler.address'
       credit_card:
         properties:
           credit_card_cvv:
@@ -38,14 +66,55 @@ definitions:
     - email
     - user_id
     type: object
-  handler.CheckoutResp:
+  handler.checkoutResp:
     properties:
       order_id:
         type: string
       transaction_id:
         type: string
     type: object
-  handler.OrderIdReq:
+  handler.errorReturn:
+    properties:
+      error:
+        type: string
+    type: object
+  handler.idReq:
+    properties:
+      id:
+        type: integer
+    required:
+    - id
+    type: object
+  handler.item:
+    properties:
+      cost:
+        type: number
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+    required:
+    - cost
+    - product_id
+    - quantity
+    type: object
+  handler.orderDetails:
+    properties:
+      address:
+        $ref: '#/definitions/handler.address'
+      created_at:
+        description: 时间戳
+        type: integer
+      email:
+        type: string
+      order_id:
+        type: string
+      user_currency:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  handler.orderIdReq:
     properties:
       order_id:
         type: string
@@ -55,72 +124,22 @@ definitions:
     - order_id
     - user_id
     type: object
-  handler.OrderListRes:
+  handler.orderListRes:
     properties:
       orders:
         items:
-          properties:
-            address:
-              properties:
-                city:
-                  type: string
-                country:
-                  type: string
-                state:
-                  type: string
-                streetAddress:
-                  type: string
-                zipCode:
-                  type: integer
-              type: object
-            createdAt:
-              type: integer
-            email:
-              type: string
-            orderId:
-              type: string
-            userCurrency:
-              type: string
-            userId:
-              type: integer
-          type: object
+          $ref: '#/definitions/handler.orderDetails'
         type: array
+    required:
+    - orders
     type: object
-  handler.OrderPlaceReq:
+  handler.orderPlaceReq:
     properties:
       address:
-        properties:
-          city:
-            type: string
-          country:
-            type: string
-          state:
-            type: string
-          street_address:
-            type: string
-          zip_code:
-            type: integer
-        required:
-        - city
-        - country
-        - state
-        - street_address
-        - zip_code
-        type: object
+        $ref: '#/definitions/handler.address'
       items:
         items:
-          properties:
-            cost:
-              type: number
-            product_id:
-              type: integer
-            quantity:
-              type: integer
-          required:
-          - cost
-          - product_id
-          - quantity
-          type: object
+          $ref: '#/definitions/handler.item'
         type: array
       user_currency:
         type: string
@@ -131,46 +150,7 @@ definitions:
     - user_currency
     - user_id
     type: object
-  handler.UserIdReq:
-    properties:
-      user_id:
-        type: integer
-    required:
-    - user_id
-    type: object
-  handler.addItemReq:
-    properties:
-      item:
-        $ref: '#/definitions/handler.cartItem'
-      userid:
-        type: integer
-    required:
-    - item
-    - userid
-    type: object
-  handler.cartItem:
-    properties:
-      product_id:
-        type: integer
-      quantity:
-        type: integer
-    required:
-    - product_id
-    - quantity
-    type: object
-  handler.errorReturn:
-    properties:
-      error:
-        type: string
-    type: object
-  handler.idInput:
-    properties:
-      id:
-        type: integer
-    required:
-    - id
-    type: object
-  handler.productCreateInput:
+  handler.productCreateReq:
     properties:
       categories:
         items:
@@ -190,19 +170,19 @@ definitions:
     - picture
     - price
     type: object
-  handler.productListInput:
+  handler.productListReq:
     properties:
       category_name:
         type: string
       page:
         type: integer
-      pagesize:
+      page_size:
         type: integer
     required:
     - page
-    - pagesize
+    - page_size
     type: object
-  handler.registerInput:
+  handler.registerReq:
     properties:
       password:
         type: string
@@ -212,7 +192,7 @@ definitions:
     - password
     - username
     type: object
-  handler.searchInput:
+  handler.searchReq:
     properties:
       query:
         type: string
@@ -238,7 +218,7 @@ definitions:
     required:
     - id
     type: object
-  handler.updateInput:
+  handler.updateReq:
     properties:
       new_password:
         type: string
@@ -253,17 +233,10 @@ definitions:
     type: object
   handler.userIdReq:
     properties:
-      userid:
+      user_id:
         type: integer
     required:
-    - userid
-    type: object
-  handler.useridInput:
-    properties:
-      userid:
-        type: integer
-    required:
-    - userid
+    - user_id
     type: object
   test_handler.errorReturn:
     properties:
@@ -311,17 +284,17 @@ paths:
       parameters:
       - description: 结算请求
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.CheckoutReq'
+          $ref: '#/definitions/handler.checkoutReq'
       produces:
       - application/json
       responses:
         "200":
           description: 成功
           schema:
-            $ref: '#/definitions/handler.CheckoutResp'
+            $ref: '#/definitions/handler.checkoutResp'
         "400":
           description: 请求信息错误
           schema:
@@ -339,7 +312,7 @@ paths:
       parameters:
       - description: 商品和用户信息
         in: body
-        name: input
+        name: req
         required: true
         schema:
           $ref: '#/definitions/handler.addItemReq'
@@ -365,7 +338,7 @@ paths:
       parameters:
       - description: 用户id
         in: body
-        name: input
+        name: req
         required: true
         schema:
           $ref: '#/definitions/handler.userIdReq'
@@ -391,7 +364,7 @@ paths:
       parameters:
       - description: 用户id
         in: body
-        name: input
+        name: req
         required: true
         schema:
           $ref: '#/definitions/handler.userIdReq'
@@ -420,10 +393,10 @@ paths:
       parameters:
       - description: 订单id
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.OrderIdReq'
+          $ref: '#/definitions/handler.orderIdReq'
       produces:
       - application/json
       responses:
@@ -445,17 +418,17 @@ paths:
       parameters:
       - description: 用户id
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.UserIdReq'
+          $ref: '#/definitions/handler.userIdReq'
       produces:
       - application/json
       responses:
         "200":
           description: 订单列表
           schema:
-            $ref: '#/definitions/handler.OrderListRes'
+            $ref: '#/definitions/handler.orderListRes'
         "400":
           description: 请求格式错误
           schema:
@@ -473,17 +446,17 @@ paths:
       parameters:
       - description: 订单信息
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.OrderPlaceReq'
+          $ref: '#/definitions/handler.orderPlaceReq'
       produces:
       - application/json
       responses:
         "200":
           description: 订单id
           schema:
-            $ref: '#/definitions/handler.OrderIdReq'
+            $ref: '#/definitions/handler.orderIdReq'
         "400":
           description: 请求格式错误
           schema:
@@ -501,17 +474,17 @@ paths:
       parameters:
       - description: 商品信息
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.productCreateInput'
+          $ref: '#/definitions/handler.productCreateReq'
       produces:
       - application/json
       responses:
         "200":
           description: 商品id
           schema:
-            $ref: '#/definitions/handler.idInput'
+            $ref: '#/definitions/handler.idReq'
         "400":
           description: 请求格式错误
           schema:
@@ -529,10 +502,10 @@ paths:
       parameters:
       - description: 商品id
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.idInput'
+          $ref: '#/definitions/handler.idReq'
       produces:
       - application/json
       responses:
@@ -555,10 +528,10 @@ paths:
       parameters:
       - description: 商品id
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.idInput'
+          $ref: '#/definitions/handler.idReq'
       produces:
       - application/json
       responses:
@@ -583,17 +556,17 @@ paths:
       parameters:
       - description: 商品列表信息
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.productListInput'
+          $ref: '#/definitions/handler.productListReq'
       produces:
       - application/json
       responses:
         "200":
           description: 商品列表
           schema:
-            $ref: '#/definitions/handler.productListInput'
+            $ref: '#/definitions/handler.productListReq'
         "400":
           description: 请求格式错误
           schema:
@@ -611,10 +584,10 @@ paths:
       parameters:
       - description: 搜索关键词
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.searchInput'
+          $ref: '#/definitions/handler.searchReq'
       produces:
       - application/json
       responses:
@@ -639,7 +612,7 @@ paths:
       parameters:
       - description: 商品信息
         in: body
-        name: input
+        name: req
         required: true
         schema:
           $ref: '#/definitions/handler.simpleProduct'
@@ -794,6 +767,13 @@ paths:
   /user/delete:
     delete:
       description: 删除一个账户
+      parameters:
+      - description: 删除信息
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/handler.registerReq'
       produces:
       - application/json
       responses:
@@ -816,10 +796,10 @@ paths:
       parameters:
       - description: 登录信息
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.registerInput'
+          $ref: '#/definitions/handler.registerReq'
       produces:
       - application/json
       responses:
@@ -861,17 +841,17 @@ paths:
       parameters:
       - description: 注册信息
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.registerInput'
+          $ref: '#/definitions/handler.registerReq'
       produces:
       - application/json
       responses:
         "200":
           description: 用户id
           schema:
-            $ref: '#/definitions/handler.useridInput'
+            $ref: '#/definitions/handler.userIdReq'
         "400":
           description: 请求格式错误
           schema:
@@ -889,10 +869,10 @@ paths:
       parameters:
       - description: 修改信息
         in: body
-        name: input
+        name: req
         required: true
         schema:
-          $ref: '#/definitions/handler.updateInput'
+          $ref: '#/definitions/handler.updateReq'
       produces:
       - application/json
       responses:

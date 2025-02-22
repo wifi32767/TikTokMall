@@ -19,6 +19,7 @@ type OrderServiceImpl struct{}
 // PlaceOrder implements the OrderServiceImpl interface.
 func (s *OrderServiceImpl) PlaceOrder(ctx context.Context, req *order.PlaceOrderReq) (resp *order.PlaceOrderResp, err error) {
 	klog.Infof("PlaceOrder: %v", req)
+	// 生成订单号
 	orderid, _ := uuid.NewUUID()
 	o := &model.Order{
 		OrderId:      orderid.String(),
@@ -36,6 +37,7 @@ func (s *OrderServiceImpl) PlaceOrder(ctx context.Context, req *order.PlaceOrder
 		o.Consignee.City = a.City
 		o.Consignee.StreetAddress = a.StreetAddress
 	}
+	// 生成订单项
 	orderItemList := make([]model.OrderItem, 0)
 	for _, item := range req.GetOrderItems() {
 		orderItemList = append(orderItemList, model.OrderItem{
@@ -103,19 +105,11 @@ func (s *OrderServiceImpl) ListOrder(ctx context.Context, req *order.ListOrderRe
 // UpdateOrderState implements the OrderServiceImpl interface.
 func (s *OrderServiceImpl) UpdateOrderState(ctx context.Context, req *order.UpdateOrderStateReq) (resp *order.Empty, err error) {
 	klog.Infof("UpdateOrderState: %v", req)
-	var state model.OrderState
-	switch req.GetState() {
-	case 0:
-		state = model.OrderStatePlaced
-	case 1:
-		state = model.OrderStatePaid
-	case 2:
-		state = model.OrderStateCanceled
-	default:
+	if req.GetState() != string(model.OrderStatePlaced) && req.GetState() != string(model.OrderStatePaid) && req.GetState() != string(model.OrderStateCanceled) {
 		err = kerrors.NewBizStatusError(http.StatusBadRequest, "invalid state")
 		return
 	}
-	err = model.UpdateOrderState(dal.DB, ctx, req.GetUserId(), req.GetOrderId(), state)
+	err = model.UpdateOrderState(dal.DB, ctx, req.GetUserId(), req.GetOrderId(), model.OrderState(req.GetState()))
 	return
 }
 

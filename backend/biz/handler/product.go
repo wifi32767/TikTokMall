@@ -9,58 +9,27 @@ import (
 	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/product"
 )
 
-type productCreateInput struct {
-	Name        string   `json:"name" binding:"required"`
-	Description string   `json:"description" binding:"required"`
-	Picture     string   `json:"picture" binding:"required"`
-	Price       float32  `json:"price" binding:"required"`
-	Categories  []string `json:"categories"`
-}
-
-type simpleProduct struct {
-	ID          uint32   `json:"id" binding:"required"`
-	Name        string   `json:"name"`
-	Description string   `json:"description"`
-	Picture     string   `json:"picture"`
-	Price       float32  `json:"price"`
-	Categories  []string `json:"categories"`
-}
-
-type idInput struct {
-	ID uint32 `json:"id" binding:"required"`
-}
-
-type productListInput struct {
-	PageSize     int32  `json:"pagesize" binding:"required"`
-	Page         int32  `json:"page" binding:"required"`
-	CategoryName string `json:"category_name"`
-}
-
-type searchInput struct {
-	Query string `json:"query" binding:"required"`
-}
-
-//	@Summary		创建商品
-//	@Description	创建一个新的商品
-//	@Tags			product
-//	@Produce		json
-//	@Param			input	body		productCreateInput	true	"商品信息"
-//	@Success		200		{object}	idInput				"商品id
-//	@Failure		400		{object}	errorReturn			"请求格式错误"
-//	@Failure		500		{object}	errorReturn			"服务器错误"
-//	@Router			/product/create [post]
+// @Summary		创建商品
+// @Description	创建一个新的商品
+// @Tags			product
+// @Produce		json
+// @Param			req	body		productCreateReq	true	"商品信息"
+// @Success		200		{object}	idReq				"商品id
+// @Failure		400		{object}	errorReturn			"请求格式错误"
+// @Failure		500		{object}	errorReturn			"服务器错误"
+// @Router			/product/create [post]
 func ProductCreate(c *gin.Context) {
-	input := productCreateInput{}
-	if err := c.ShouldBindJSON(&input); err != nil {
+	req := productCreateReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	resp, err := rpc.ProductClient.CreateProduct(c.Request.Context(), &product.CreateProductReq{
-		Name:        input.Name,
-		Description: input.Description,
-		Picture:     input.Picture,
-		Price:       input.Price,
-		Categories:  input.Categories,
+		Name:        req.Name,
+		Description: req.Description,
+		Picture:     req.Picture,
+		Price:       req.Price,
+		Categories:  req.Categories,
 	})
 	if err != nil {
 		utils.ErrorHandle(c, err)
@@ -71,28 +40,28 @@ func ProductCreate(c *gin.Context) {
 	})
 }
 
-//	@Summary		更新商品信息
-//	@Description	更新商品信息
-//	@Tags			product
-//	@Produce		json
-//	@Param			input	body	simpleProduct	true	"商品信息"
-//	@Success		200		"成功"
-//	@Failure		400		{object}	errorReturn	"请求格式错误"
-//	@Failure		500		{object}	errorReturn	"服务器错误"
-//	@Router			/product/update [put]
+// @Summary		更新商品信息
+// @Description	更新商品信息
+// @Tags			product
+// @Produce		json
+// @Param			req	body	simpleProduct	true	"商品信息"
+// @Success		200		"成功"
+// @Failure		400		{object}	errorReturn	"请求格式错误"
+// @Failure		500		{object}	errorReturn	"服务器错误"
+// @Router			/product/update [put]
 func ProductUpdate(c *gin.Context) {
-	input := simpleProduct{}
-	if err := c.ShouldBindJSON(&input); err != nil {
+	req := simpleProduct{}
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	_, err := rpc.ProductClient.UpdateProduct(c.Request.Context(), &product.UpdateProductReq{
-		Id:          input.ID,
-		Name:        input.Name,
-		Description: input.Description,
-		Picture:     input.Picture,
-		Price:       input.Price,
-		Categories:  input.Categories,
+		Id:          req.ID,
+		Name:        req.Name,
+		Description: req.Description,
+		Picture:     req.Picture,
+		Price:       req.Price,
+		Categories:  req.Categories,
 	})
 	if err != nil {
 		utils.ErrorHandle(c, err)
@@ -101,23 +70,23 @@ func ProductUpdate(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-//	@Summary		删除商品
-//	@Description	删除商品
-//	@Tags			product
-//	@Produce		json
-//	@Param			input	body	idInput	true	"商品id"
-//	@Success		200		"成功"
-//	@Failure		400		{object}	errorReturn	"请求格式错误"
-//	@Failure		500		{object}	errorReturn	"服务器错误"
-//	@Router			/product/delete [delete]
+// @Summary		删除商品
+// @Description	删除商品
+// @Tags			product
+// @Produce		json
+// @Param			req	body	idReq	true	"商品id"
+// @Success		200		"成功"
+// @Failure		400		{object}	errorReturn	"请求格式错误"
+// @Failure		500		{object}	errorReturn	"服务器错误"
+// @Router			/product/delete [delete]
 func ProductDelete(c *gin.Context) {
-	input := idInput{}
-	if err := c.ShouldBindJSON(&input); err != nil {
+	req := idReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	_, err := rpc.ProductClient.DeleteProduct(c.Request.Context(), &product.DeleteProductReq{
-		Id: input.ID,
+		Id: req.ID,
 	})
 	if err != nil {
 		utils.ErrorHandle(c, err)
@@ -126,25 +95,25 @@ func ProductDelete(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{})
 }
 
-//	@Summary		商品列表
-//	@Description	获取指定类别的商品列表，不指定类别返回全部商品的列表
-//	@Tags			product
-//	@Produce		json
-//	@Param			input	body		productListInput	true	"商品列表信息"
-//	@Success		200		{object}	productListInput	"商品列表"
-//	@Failure		400		{object}	errorReturn			"请求格式错误"
-//	@Failure		500		{object}	errorReturn			"服务器错误"
-//	@Router			/product/list [get]
+// @Summary		商品列表
+// @Description	获取指定类别的商品列表，不指定类别返回全部商品的列表
+// @Tags			product
+// @Produce		json
+// @Param			req	body		productListReq	true	"商品列表信息"
+// @Success		200		{object}	productListReq	"商品列表"
+// @Failure		400		{object}	errorReturn			"请求格式错误"
+// @Failure		500		{object}	errorReturn			"服务器错误"
+// @Router			/product/list [get]
 func ProductList(c *gin.Context) {
-	input := productListInput{}
-	if err := c.ShouldBindJSON(&input); err != nil {
+	req := productListReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	resp, err := rpc.ProductClient.ListProducts(c.Request.Context(), &product.ListProductsReq{
-		PageSize:     input.PageSize,
-		Page:         input.Page,
-		CategoryName: input.CategoryName,
+		PageSize:     req.PageSize,
+		Page:         req.Page,
+		CategoryName: req.CategoryName,
 	})
 	if err != nil {
 		utils.ErrorHandle(c, err)
@@ -166,23 +135,23 @@ func ProductList(c *gin.Context) {
 	})
 }
 
-//	@Summary		获取商品信息
-//	@Description	获取单个商品信息
-//	@Tags			product
-//	@Produce		json
-//	@Param			input	body		idInput			true	"商品id"
-//	@Success		200		{object}	simpleProduct	"商品信息"
-//	@Failure		400		{object}	errorReturn		"请求格式错误"
-//	@Failure		500		{object}	errorReturn		"服务器错误"
-//	@Router			/product/get [get]
+// @Summary		获取商品信息
+// @Description	获取单个商品信息
+// @Tags			product
+// @Produce		json
+// @Param			req	body		idReq			true	"商品id"
+// @Success		200		{object}	simpleProduct	"商品信息"
+// @Failure		400		{object}	errorReturn		"请求格式错误"
+// @Failure		500		{object}	errorReturn		"服务器错误"
+// @Router			/product/get [get]
 func ProductGet(c *gin.Context) {
-	input := idInput{}
-	if err := c.ShouldBindJSON(&input); err != nil {
+	req := idReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	resp, err := rpc.ProductClient.GetProduct(c.Request.Context(), &product.GetProductReq{
-		Id: input.ID,
+		Id: req.ID,
 	})
 	if err != nil {
 		utils.ErrorHandle(c, err)
@@ -201,23 +170,23 @@ func ProductGet(c *gin.Context) {
 	})
 }
 
-//	@Summary		商品搜索
-//	@Description	搜索在名字和描述中含有关键词的商品
-//	@Tags			product
-//	@Produce		json
-//	@Param			input	body		searchInput		true	"搜索关键词"
-//	@Success		200		{object}	simpleProduct	"商品信息"
-//	@Failure		400		{object}	errorReturn		"请求格式错误"
-//	@Failure		500		{object}	errorReturn		"服务器错误"
-//	@Router			/product/search [get]
+// @Summary		商品搜索
+// @Description	搜索在名字和描述中含有关键词的商品
+// @Tags			product
+// @Produce		json
+// @Param			req	body		searchReq		true	"搜索关键词"
+// @Success		200		{object}	simpleProduct	"商品信息"
+// @Failure		400		{object}	errorReturn		"请求格式错误"
+// @Failure		500		{object}	errorReturn		"服务器错误"
+// @Router			/product/search [get]
 func ProductSearch(c *gin.Context) {
-	input := searchInput{}
-	if err := c.ShouldBindJSON(&input); err != nil {
+	req := searchReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	resp, err := rpc.ProductClient.SearchProducts(c.Request.Context(), &product.SearchProductsReq{
-		Query: input.Query,
+		Query: req.Query,
 	})
 	if err != nil {
 		utils.ErrorHandle(c, err)

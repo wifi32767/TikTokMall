@@ -7,12 +7,12 @@ import (
 )
 
 type Consignee struct {
-	Email string
+	Email string `gorm:"type:varchar(255)"`
 
-	StreetAddress string
-	City          string
-	State         string
-	Country       string
+	StreetAddress string `gorm:"type:varchar(255)"`
+	City          string `gorm:"type:varchar(255)"`
+	State         string `gorm:"type:varchar(255)"`
+	Country       string `gorm:"type:varchar(255)"`
 	ZipCode       int32
 }
 
@@ -27,16 +27,16 @@ const (
 
 type Order struct {
 	gorm.Model
-	OrderId      string `gorm:"uniqueIndex;size:256"`
+	OrderId      string `gorm:"uniqueIndex;type:varchar(255)"`
 	UserId       uint32
-	UserCurrency string
+	UserCurrency string      `gorm:"type:varchar(5)"`
 	Consignee    Consignee   `gorm:"embedded"`
 	OrderItems   []OrderItem `gorm:"foreignKey:OrderIdRefer;references:OrderId"`
-	OrderState   OrderState
+	OrderState   OrderState  `gorm:"type:varchar(16)"`
 }
 
 func (o *Order) TableName() string {
-	return "order"
+	return "orders"
 }
 
 func PlaceOrder(db *gorm.DB, ctx context.Context, order *Order, orderItemList *[]OrderItem) error {

@@ -74,7 +74,7 @@ message GetOrderResp {
 message UpdateOrderStateReq {
   uint32 user_id = 1;
   string order_id = 2;
-  uint32 state = 3;
+  string state = 3;
 }
 
 message Empty {}
