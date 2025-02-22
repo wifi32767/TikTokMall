@@ -27,4 +27,9 @@ func MysqlInit() {
 	}
 	autoMigrate(&model.Order{})
 	autoMigrate(&model.OrderItem{})
+	event := `CREATE EVENT IF NOT EXISTS auto_cancel_order
+	ON SCHEDULE EVERY 5 MINUTE
+	DO
+		UPDATE orders SET order_state = "canceled" WHERE order_state = "placed" AND updated_at < DATE_SUB(NOW(), INTERVAL 30 MINUTE);`
+	DB.Exec(event)
 }
