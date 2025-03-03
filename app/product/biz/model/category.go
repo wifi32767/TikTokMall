@@ -2,6 +2,7 @@ package model
 
 import (
 	"context"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -29,8 +30,8 @@ func NewCategoryQuery(ctx context.Context, db *gorm.DB) *CategoryQuery {
 // 通过名称获取分类，如果不存在则创建
 func (c CategoryQuery) GetByName(name string) (*Category, error) {
 	category := &Category{Name: name}
-	err := c.db.WithContext(c.ctx).Preload("Products").Model(&Category{}).First(category).Error
-	if err == gorm.ErrRecordNotFound {
+	err := c.db.WithContext(c.ctx).Preload("Products").Model(&Category{}).Where(category).First(category).Error
+	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err = c.db.WithContext(c.ctx).Create(category).Error
 	}
 	return category, err

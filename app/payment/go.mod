@@ -9,6 +9,7 @@ require (
 	github.com/durango/go-credit-card v0.0.0-20220404131259-a9e175ba4082
 	github.com/google/uuid v1.6.0
 	github.com/kitex-contrib/registry-consul v0.1.0
+	github.com/rabbitmq/amqp091-go v1.10.0
 	github.com/wifi32767/TikTokMall v0.0.0-00010101000000-000000000000
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/gorm v1.25.12

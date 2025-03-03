@@ -36,7 +36,7 @@ func (s *ProductCatalogServiceImpl) CreateProduct(ctx context.Context, req *prod
 		}
 		prod.Categories = append(prod.Categories, *category)
 	}
-	err = model.NewProductQuery(ctx, dal.DB).Create(prod)
+	err = model.NewCachedProductQuery(ctx, dal.DB, dal.RedisClient, dal.Filter).Create(prod)
 	resp = &product.CreateProductResp{
 		Id: uint32(prod.ID),
 	}
@@ -65,7 +65,7 @@ func (s *ProductCatalogServiceImpl) UpdateProduct(ctx context.Context, req *prod
 		}
 		prod.Categories = append(prod.Categories, *category)
 	}
-	err = model.NewProductQuery(ctx, dal.DB).Update(prod)
+	err = model.NewCachedProductQuery(ctx, dal.DB, dal.RedisClient, dal.Filter).Update(prod)
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err = kerrors.NewBizStatusError(http.StatusNotFound, "product not found")
 	}
@@ -75,7 +75,7 @@ func (s *ProductCatalogServiceImpl) UpdateProduct(ctx context.Context, req *prod
 // DeleteProduct implements the ProductCatalogServiceImpl interface.
 func (s *ProductCatalogServiceImpl) DeleteProduct(ctx context.Context, req *product.DeleteProductReq) (resp *product.Empty, err error) {
 	klog.Infof("DeleteProduct: %v", req)
-	err = model.NewProductQuery(ctx, dal.DB).Delete(req.GetId())
+	err = model.NewCachedProductQuery(ctx, dal.DB, dal.RedisClient, dal.Filter).Delete(req.GetId())
 	if errors.Is(err, gorm.ErrRecordNotFound) {
 		err = kerrors.NewBizStatusError(http.StatusNotFound, "product not found")
 	}
@@ -139,7 +139,7 @@ func (s *ProductCatalogServiceImpl) ListProducts(ctx context.Context, req *produ
 // GetProduct implements the ProductCatalogServiceImpl interface.
 func (s *ProductCatalogServiceImpl) GetProduct(ctx context.Context, req *product.GetProductReq) (resp *product.GetProductResp, err error) {
 	klog.Infof("GetProduct: %v", req)
-	prod, err := model.NewCachedProductQuery(ctx, dal.DB, dal.RedisClient).GetById(req.GetId())
+	prod, err := model.NewCachedProductQuery(ctx, dal.DB, dal.RedisClient, dal.Filter).GetById(req.GetId())
 	if err != nil {
 		klog.Error(err)
 		if errors.Is(err, gorm.ErrRecordNotFound) {
