@@ -1,8 +1,10 @@
 kitex:
   service: "auth"
   address: ":8880"
-  log_level: "info"
   consul_address: "localhost:8500"
 redis:
   address: "localhost:6379"
   password: ""
+log:
+  level: "info"
+  rabbitmq_address: "amqp://admin:123456@localhost:5672/"

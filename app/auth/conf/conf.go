@@ -13,20 +13,26 @@ var (
 )
 
 type Config struct {
-	Kitex          Kitex  `yaml:"kitex"`
-	Redis          Redis  `yaml:"redis"`
+	Kitex Kitex `yaml:"kitex"`
+	Redis Redis `yaml:"redis"`
+	Log   Log   `yaml:"log"`
 }
 
 type Kitex struct {
-	Service   string `yaml:"service"`
-	Address   string `yaml:"address"`
-	Log_level string `yaml:"log_level"`
+	Service        string `yaml:"service"`
+	Address        string `yaml:"address"`
+	Log_level      string `yaml:"log_level"`
 	Consul_address string `yaml:"consul_address"`
 }
 
 type Redis struct {
 	Address  string `yaml:"address"`
 	Password string `yaml:"password"`
+}
+
+type Log struct {
+	Level           string `yaml:"level"`
+	RabbitmqAddress string `yaml:"rabbitmq_address"`
 }
 
 func GetConf() *Config {
@@ -38,7 +44,7 @@ func GetConf() *Config {
 }
 
 func LogLevel() klog.Level {
-	level := GetConf().Kitex.Log_level
+	level := GetConf().Log.Level
 	switch level {
 	case "trace":
 		return klog.LevelTrace

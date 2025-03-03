@@ -1,10 +1,12 @@
 kitex:
   service: "checkout"
   address: ":8886"
-  log_level: "info"
   consul_address: "localhost:8500"
 mysql:
   dsn: "root:123456@tcp(127.0.0.1:3306)/tiktokmall?charset=utf8mb4&parseTime=True&loc=Local"
 redis:
   address: "localhost:6379"
   password: ""
+log:
+  level: "info"
+  rabbitmq_address: "amqp://admin:123456@localhost:5672/"
