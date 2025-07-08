@@ -100,10 +100,15 @@ func (c CachedProductQuery) Create(product *Product) error {
 }
 
 func (c CachedProductQuery) Update(product *Product) error {
+	cacheKey := fmt.Sprintf("product_%d", product.Model.ID)
+	_ = c.client.Del(c.productQuery.ctx, cacheKey)
 	err := c.productQuery.Update(product)
 	if err == nil {
-		cacheKey := fmt.Sprintf("product_%d", product.Model.ID)
-		_ = c.client.Del(c.productQuery.ctx, cacheKey)
+		go func() {
+			// 延迟双删
+			time.Sleep(500 * time.Millisecond)
+			_ = c.client.Del(c.productQuery.ctx, cacheKey)
+		}()
 	}
 	return err
 }
