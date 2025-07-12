@@ -19,10 +19,10 @@ import (
 
 func main() {
 	// log
-	// conn, ch, cancel := loggerInit()
-	// defer conn.Close()
-	// defer ch.Close()
-	// defer cancel()
+	conn, ch, cancel := loggerInit()
+	defer conn.Close()
+	defer ch.Close()
+	defer cancel()
 	klog.SetLevel(conf.LogLevel())
 	// dal
 	dal.MysqlInit()

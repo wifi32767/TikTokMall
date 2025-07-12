@@ -13,3 +13,9 @@ Delete
 
 Update  
 更新一个用户的密码  
+
+Grant  
+修改一个用户的权限  
+
+GetUserPermission  
+获取一个用户的权限

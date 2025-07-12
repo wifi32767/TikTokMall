@@ -31,11 +31,13 @@ func Register(r *gin.Engine) {
 
 	user := api.Group("/user")
 	user.Use(auth.WhiteListAuthentication())
+	user.Use(auth.ProtectedAuthentication())
 	user.POST("/register", handler.UserRegister)
 	user.POST("/login", handler.UserLogin)
 	user.POST("/logout", handler.UserLogout)
 	user.DELETE("/delete", handler.UserDelete)
 	user.PUT("/update", handler.UserUpdate)
+	user.PUT("/grant", handler.UserGrant)
 
 	product := api.Group("/product")
 	product.POST("/create", handler.ProductCreate)

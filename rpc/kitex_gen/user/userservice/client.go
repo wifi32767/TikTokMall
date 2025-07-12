@@ -15,6 +15,8 @@ type Client interface {
 	Login(ctx context.Context, Req *user.LoginReq, callOptions ...callopt.Option) (r *user.LoginResp, err error)
 	Delete(ctx context.Context, Req *user.DeleteReq, callOptions ...callopt.Option) (r *user.DeleteResp, err error)
 	Update(ctx context.Context, Req *user.UpdateReq, callOptions ...callopt.Option) (r *user.UpdateResp, err error)
+	GetUserPermission(ctx context.Context, Req *user.GetUserPermissionReq, callOptions ...callopt.Option) (r *user.GetUserPermissionResp, err error)
+	Grant(ctx context.Context, Req *user.GrantReq, callOptions ...callopt.Option) (r *user.GrantResp, err error)
 }
 
 // NewClient creates a client for the service defined in IDL.
@@ -64,4 +66,14 @@ func (p *kUserServiceClient) Delete(ctx context.Context, Req *user.DeleteReq, ca
 func (p *kUserServiceClient) Update(ctx context.Context, Req *user.UpdateReq, callOptions ...callopt.Option) (r *user.UpdateResp, err error) {
 	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
 	return p.kClient.Update(ctx, Req)
+}
+
+func (p *kUserServiceClient) GetUserPermission(ctx context.Context, Req *user.GetUserPermissionReq, callOptions ...callopt.Option) (r *user.GetUserPermissionResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.GetUserPermission(ctx, Req)
+}
+
+func (p *kUserServiceClient) Grant(ctx context.Context, Req *user.GrantReq, callOptions ...callopt.Option) (r *user.GrantResp, err error) {
+	ctx = client.NewCtxWithCallOptions(ctx, callOptions)
+	return p.kClient.Grant(ctx, Req)
 }

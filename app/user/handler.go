@@ -138,3 +138,39 @@ func (s *UserServiceImpl) Update(ctx context.Context, req *user.UpdateReq) (resp
 	}
 	return
 }
+
+// Grant implements the UserServiceImpl interface.
+func (s *UserServiceImpl) Grant(ctx context.Context, req *user.GrantReq) (resp *user.GrantResp, err error) {
+	klog.Infof("Grant: %v", req)
+	// 检查用户是否存在
+	_, err = model.GetUserById(dal.DB, ctx, req.GetUserId())
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = kerrors.NewBizStatusError(http.StatusNotFound, "user not found")
+		return
+	} else if err != nil {
+		klog.Error(err)
+		return
+	}
+	err = model.GrantUser(dal.DB, ctx, uint(req.GetUserId()), req.GetPermission())
+	resp = &user.GrantResp{
+		Success: true,
+	}
+	return
+}
+
+// GetUserPermission implements the UserServiceImpl interface.
+func (s *UserServiceImpl) GetUserPermission(ctx context.Context, req *user.GetUserPermissionReq) (resp *user.GetUserPermissionResp, err error) {
+	klog.Infof("GetUserPermission: %v", req)
+	usr, err := model.GetUserById(dal.DB, ctx, req.GetUserId())
+	if errors.Is(err, gorm.ErrRecordNotFound) {
+		err = kerrors.NewBizStatusError(http.StatusNotFound, "user not found")
+		return
+	} else if err != nil {
+		klog.Error(err)
+		return
+	}
+	resp = &user.GetUserPermissionResp{
+		Permission: usr.Permission,
+	}
+	return
+}

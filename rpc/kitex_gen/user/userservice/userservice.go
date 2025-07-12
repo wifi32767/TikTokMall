@@ -43,6 +43,20 @@ var serviceMethods = map[string]kitex.MethodInfo{
 		false,
 		kitex.WithStreamingMode(kitex.StreamingUnary),
 	),
+	"GetUserPermission": kitex.NewMethodInfo(
+		getUserPermissionHandler,
+		newGetUserPermissionArgs,
+		newGetUserPermissionResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
+	"Grant": kitex.NewMethodInfo(
+		grantHandler,
+		newGrantArgs,
+		newGrantResult,
+		false,
+		kitex.WithStreamingMode(kitex.StreamingUnary),
+	),
 }
 
 var (
@@ -721,6 +735,312 @@ func (p *UpdateResult) GetResult() interface{} {
 	return p.Success
 }
 
+func getUserPermissionHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(user.GetUserPermissionReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(user.UserService).GetUserPermission(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *GetUserPermissionArgs:
+		success, err := handler.(user.UserService).GetUserPermission(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GetUserPermissionResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newGetUserPermissionArgs() interface{} {
+	return &GetUserPermissionArgs{}
+}
+
+func newGetUserPermissionResult() interface{} {
+	return &GetUserPermissionResult{}
+}
+
+type GetUserPermissionArgs struct {
+	Req *user.GetUserPermissionReq
+}
+
+func (p *GetUserPermissionArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+	if !p.IsSetReq() {
+		p.Req = new(user.GetUserPermissionReq)
+	}
+	return p.Req.FastRead(buf, _type, number)
+}
+
+func (p *GetUserPermissionArgs) FastWrite(buf []byte) (n int) {
+	if !p.IsSetReq() {
+		return 0
+	}
+	return p.Req.FastWrite(buf)
+}
+
+func (p *GetUserPermissionArgs) Size() (n int) {
+	if !p.IsSetReq() {
+		return 0
+	}
+	return p.Req.Size()
+}
+
+func (p *GetUserPermissionArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GetUserPermissionArgs) Unmarshal(in []byte) error {
+	msg := new(user.GetUserPermissionReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GetUserPermissionArgs_Req_DEFAULT *user.GetUserPermissionReq
+
+func (p *GetUserPermissionArgs) GetReq() *user.GetUserPermissionReq {
+	if !p.IsSetReq() {
+		return GetUserPermissionArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GetUserPermissionArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *GetUserPermissionArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type GetUserPermissionResult struct {
+	Success *user.GetUserPermissionResp
+}
+
+var GetUserPermissionResult_Success_DEFAULT *user.GetUserPermissionResp
+
+func (p *GetUserPermissionResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+	if !p.IsSetSuccess() {
+		p.Success = new(user.GetUserPermissionResp)
+	}
+	return p.Success.FastRead(buf, _type, number)
+}
+
+func (p *GetUserPermissionResult) FastWrite(buf []byte) (n int) {
+	if !p.IsSetSuccess() {
+		return 0
+	}
+	return p.Success.FastWrite(buf)
+}
+
+func (p *GetUserPermissionResult) Size() (n int) {
+	if !p.IsSetSuccess() {
+		return 0
+	}
+	return p.Success.Size()
+}
+
+func (p *GetUserPermissionResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GetUserPermissionResult) Unmarshal(in []byte) error {
+	msg := new(user.GetUserPermissionResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GetUserPermissionResult) GetSuccess() *user.GetUserPermissionResp {
+	if !p.IsSetSuccess() {
+		return GetUserPermissionResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GetUserPermissionResult) SetSuccess(x interface{}) {
+	p.Success = x.(*user.GetUserPermissionResp)
+}
+
+func (p *GetUserPermissionResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *GetUserPermissionResult) GetResult() interface{} {
+	return p.Success
+}
+
+func grantHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
+	switch s := arg.(type) {
+	case *streaming.Args:
+		st := s.Stream
+		req := new(user.GrantReq)
+		if err := st.RecvMsg(req); err != nil {
+			return err
+		}
+		resp, err := handler.(user.UserService).Grant(ctx, req)
+		if err != nil {
+			return err
+		}
+		return st.SendMsg(resp)
+	case *GrantArgs:
+		success, err := handler.(user.UserService).Grant(ctx, s.Req)
+		if err != nil {
+			return err
+		}
+		realResult := result.(*GrantResult)
+		realResult.Success = success
+		return nil
+	default:
+		return errInvalidMessageType
+	}
+}
+func newGrantArgs() interface{} {
+	return &GrantArgs{}
+}
+
+func newGrantResult() interface{} {
+	return &GrantResult{}
+}
+
+type GrantArgs struct {
+	Req *user.GrantReq
+}
+
+func (p *GrantArgs) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+	if !p.IsSetReq() {
+		p.Req = new(user.GrantReq)
+	}
+	return p.Req.FastRead(buf, _type, number)
+}
+
+func (p *GrantArgs) FastWrite(buf []byte) (n int) {
+	if !p.IsSetReq() {
+		return 0
+	}
+	return p.Req.FastWrite(buf)
+}
+
+func (p *GrantArgs) Size() (n int) {
+	if !p.IsSetReq() {
+		return 0
+	}
+	return p.Req.Size()
+}
+
+func (p *GrantArgs) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetReq() {
+		return out, nil
+	}
+	return proto.Marshal(p.Req)
+}
+
+func (p *GrantArgs) Unmarshal(in []byte) error {
+	msg := new(user.GrantReq)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Req = msg
+	return nil
+}
+
+var GrantArgs_Req_DEFAULT *user.GrantReq
+
+func (p *GrantArgs) GetReq() *user.GrantReq {
+	if !p.IsSetReq() {
+		return GrantArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+
+func (p *GrantArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *GrantArgs) GetFirstArgument() interface{} {
+	return p.Req
+}
+
+type GrantResult struct {
+	Success *user.GrantResp
+}
+
+var GrantResult_Success_DEFAULT *user.GrantResp
+
+func (p *GrantResult) FastRead(buf []byte, _type int8, number int32) (n int, err error) {
+	if !p.IsSetSuccess() {
+		p.Success = new(user.GrantResp)
+	}
+	return p.Success.FastRead(buf, _type, number)
+}
+
+func (p *GrantResult) FastWrite(buf []byte) (n int) {
+	if !p.IsSetSuccess() {
+		return 0
+	}
+	return p.Success.FastWrite(buf)
+}
+
+func (p *GrantResult) Size() (n int) {
+	if !p.IsSetSuccess() {
+		return 0
+	}
+	return p.Success.Size()
+}
+
+func (p *GrantResult) Marshal(out []byte) ([]byte, error) {
+	if !p.IsSetSuccess() {
+		return out, nil
+	}
+	return proto.Marshal(p.Success)
+}
+
+func (p *GrantResult) Unmarshal(in []byte) error {
+	msg := new(user.GrantResp)
+	if err := proto.Unmarshal(in, msg); err != nil {
+		return err
+	}
+	p.Success = msg
+	return nil
+}
+
+func (p *GrantResult) GetSuccess() *user.GrantResp {
+	if !p.IsSetSuccess() {
+		return GrantResult_Success_DEFAULT
+	}
+	return p.Success
+}
+
+func (p *GrantResult) SetSuccess(x interface{}) {
+	p.Success = x.(*user.GrantResp)
+}
+
+func (p *GrantResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *GrantResult) GetResult() interface{} {
+	return p.Success
+}
+
 type kClient struct {
 	c client.Client
 }
@@ -766,6 +1086,26 @@ func (p *kClient) Update(ctx context.Context, Req *user.UpdateReq) (r *user.Upda
 	_args.Req = Req
 	var _result UpdateResult
 	if err = p.c.Call(ctx, "Update", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) GetUserPermission(ctx context.Context, Req *user.GetUserPermissionReq) (r *user.GetUserPermissionResp, err error) {
+	var _args GetUserPermissionArgs
+	_args.Req = Req
+	var _result GetUserPermissionResult
+	if err = p.c.Call(ctx, "GetUserPermission", &_args, &_result); err != nil {
+		return
+	}
+	return _result.GetSuccess(), nil
+}
+
+func (p *kClient) Grant(ctx context.Context, Req *user.GrantReq) (r *user.GrantResp, err error) {
+	var _args GrantArgs
+	_args.Req = Req
+	var _result GrantResult
+	if err = p.c.Call(ctx, "Grant", &_args, &_result); err != nil {
 		return
 	}
 	return _result.GetSuccess(), nil

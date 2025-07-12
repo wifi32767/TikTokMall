@@ -163,7 +163,7 @@ func (logger *MyLogger) Fatalf(format string, v ...interface{}) {
 // 这边仿照klog.defaultLogger的做法
 // 因为没有放ctx的地方，就直接当没有
 func (logger *MyLogger) CtxTracef(ctx context.Context, format string, v ...interface{}) {
-	logger.Tracef(format, v)
+	logger.Tracef(format, v...)
 }
 
 func (logger *MyLogger) CtxDebugf(ctx context.Context, format string, v ...interface{}) {

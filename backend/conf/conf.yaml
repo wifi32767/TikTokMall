@@ -9,3 +9,7 @@ whitelist:
   - /api/user/login
   - /ping
   - /swagger.*
+protectedlist:
+# 在保护名单内的路由，使用ProtectedAuthentication中间件的时候需要权限足够才能访问
+# 目前做成了权限为1才能访问，后续可能会加上更复杂的逻辑
+  - /api/user/grant

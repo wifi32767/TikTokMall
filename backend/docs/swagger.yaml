@@ -78,6 +78,16 @@ definitions:
       error:
         type: string
     type: object
+  handler.grantReq:
+    properties:
+      permission:
+        type: integer
+      user_id:
+        type: integer
+    required:
+    - permission
+    - user_id
+    type: object
   handler.idReq:
     properties:
       id:
@@ -255,8 +265,8 @@ definitions:
       order_id:
         type: string
       state:
-        type: integer
-      userId:
+        type: string
+      user_id:
         type: integer
     type: object
   test_handler.useridInput:
@@ -788,6 +798,32 @@ paths:
           schema:
             $ref: '#/definitions/handler.errorReturn'
       summary: 删除账户
+      tags:
+      - user
+  /user/grant:
+    put:
+      description: 修改一个账户的权限
+      parameters:
+      - description: 用户ID
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/handler.grantReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 成功
+        "400":
+          description: 请求格式错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+        "500":
+          description: 服务器错误
+          schema:
+            $ref: '#/definitions/handler.errorReturn'
+      summary: 授权用户
       tags:
       - user
   /user/login:

@@ -10,6 +10,14 @@ type User struct {
 	gorm.Model
 	Username     string `gorm:"type:varchar(20);not null;unique"`
 	PasswordHash string `gorm:"type:varchar(255);not null"`
+	Permission   uint32 `gorm:"not null"`
+	// 权限字段暂且分为两类
+	// 1: 普通用户
+	// 2: 管理员
+	// 由于0是空值，不好区分，从1开始
+	// 普通用户只能访问和操作自己所拥有的资源，可以访问商品
+	// 管理员可以访问和操作所有资源，可以为其他账号赋予权限
+	// 后续可能会扩展为更复杂的权限系统，比如通过k位四进制数管理k种不同的服务
 }
 
 func (User) TableName() string {
@@ -29,7 +37,7 @@ func GetUserByUsername(db *gorm.DB, ctx context.Context, username string) (*User
 }
 
 func CreateUser(db *gorm.DB, ctx context.Context, username, passwordHash string) (*User, error) {
-	user := &User{Username: username, PasswordHash: passwordHash}
+	user := &User{Username: username, PasswordHash: passwordHash, Permission: 0}
 	return user, db.WithContext(ctx).Model(&User{}).Create(user).Error
 }
 
@@ -39,4 +47,8 @@ func DeleteUser(db *gorm.DB, ctx context.Context, id uint) error {
 
 func UpdateUser(db *gorm.DB, ctx context.Context, id uint, passwordHash string) error {
 	return db.WithContext(ctx).Model(&User{Model: gorm.Model{ID: id}}).Updates(&User{PasswordHash: passwordHash}).Error
+}
+
+func GrantUser(db *gorm.DB, ctx context.Context, id uint, permission uint32) error {
+	return db.WithContext(ctx).Model(&User{Model: gorm.Model{ID: id}}).Updates(&User{Permission: permission}).Error
 }

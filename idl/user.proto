@@ -9,6 +9,8 @@ service UserService {
     rpc Login(LoginReq) returns (LoginResp) {}
     rpc Delete(DeleteReq) returns (DeleteResp) {}
     rpc Update(UpdateReq) returns (UpdateResp) {}
+    rpc GetUserPermission(GetUserPermissionReq) returns (GetUserPermissionResp) {}
+    rpc Grant(GrantReq) returns (GrantResp) {}
 }
 
 message RegisterReq {
@@ -46,5 +48,22 @@ message UpdateReq {
 }
 
 message UpdateResp {
+    bool success = 1;
+}
+
+message GetUserPermissionReq {
+    uint32 user_id = 1;
+}
+
+message GetUserPermissionResp {
+    uint32 permission = 1;
+}
+
+message GrantReq {
+    uint32 user_id = 1;
+    uint32 permission = 2;
+}
+
+message GrantResp {
     bool success = 1;
 }

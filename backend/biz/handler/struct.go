@@ -23,6 +23,11 @@ type updateReq struct {
 	NewPassword string `json:"new_password" binding:"required"`
 }
 
+type grantReq struct {
+	UserId     uint32 `json:"user_id" binding:"required"`
+	Permission uint32 `json:"permission" binding:"required"`
+}
+
 // product
 
 type productCreateReq struct {

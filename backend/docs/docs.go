@@ -806,6 +806,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/user/grant": {
+            "put": {
+                "description": "修改一个账户的权限",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "授权用户",
+                "parameters": [
+                    {
+                        "description": "用户ID",
+                        "name": "req",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/handler.grantReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "成功"
+                    },
+                    "400": {
+                        "description": "请求格式错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    },
+                    "500": {
+                        "description": "服务器错误",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorReturn"
+                        }
+                    }
+                }
+            }
+        },
         "/user/login": {
             "post": {
                 "description": "登录一个账户",
@@ -1077,6 +1117,21 @@ const docTemplate = `{
                 }
             }
         },
+        "handler.grantReq": {
+            "type": "object",
+            "required": [
+                "permission",
+                "user_id"
+            ],
+            "properties": {
+                "permission": {
+                    "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
         "handler.idReq": {
             "type": "object",
             "required": [
@@ -1343,9 +1398,9 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "state": {
-                    "type": "integer"
+                    "type": "string"
                 },
-                "userId": {
+                "user_id": {
                     "type": "integer"
                 }
             }

@@ -158,3 +158,33 @@ func UserUpdate(c *gin.Context) {
 	}
 	c.Status(http.StatusOK)
 }
+
+// @Summary		授权用户
+// @Description	修改一个账户的权限
+// @Tags			user
+// @Produce		json
+// @Param			req	body	grantReq	true	"用户ID"
+// @Success		200		"成功"
+// @Failure		400		{object}	errorReturn	"请求格式错误"
+// @Failure		500		{object}	errorReturn	"服务器错误"
+// @Router			/user/grant [put]
+func UserGrant(c *gin.Context) {
+	req := grantReq{}
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	ok, err := rpc.UserClient.Grant(c.Request.Context(), &user.GrantReq{
+		UserId:     req.UserId,
+		Permission: req.Permission,
+	})
+	if err != nil {
+		utils.ErrorHandle(c, err)
+		return
+	}
+	if !ok.GetSuccess() {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "修改失败"})
+		return
+	}
+	c.Status(http.StatusOK)
+}
