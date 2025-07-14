@@ -25,6 +25,14 @@ func OrderPlace(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	userid := c.GetUint("userid")
+	if req.UserId != uint32(userid) {
+		permission := c.GetInt("permission")
+		if permission != 2 {
+			c.JSON(http.StatusForbidden, gin.H{"error": "权限不足"})
+			return
+		}
+	}
 	items := make([]*order.OrderItem, 0)
 	for _, item := range req.Items {
 		items = append(items, &order.OrderItem{
@@ -69,6 +77,14 @@ func OrderList(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	userid := c.GetUint("userid")
+	if req.UserId != uint32(userid) {
+		permission := c.GetInt("permission")
+		if permission != 2 {
+			c.JSON(http.StatusForbidden, gin.H{"error": "权限不足"})
+			return
+		}
+	}
 	resp, err := rpc.OrderClient.ListOrder(c.Request.Context(), &order.ListOrderReq{
 		UserId: req.UserId,
 	})
@@ -94,6 +110,14 @@ func OrderCancel(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+	userid := c.GetUint("userid")
+	if req.UserId != uint32(userid) {
+		permission := c.GetInt("permission")
+		if permission != 2 {
+			c.JSON(http.StatusForbidden, gin.H{"error": "权限不足"})
+			return
+		}
 	}
 	_, err := rpc.OrderClient.UpdateOrderState(c.Request.Context(), &order.UpdateOrderStateReq{
 		UserId:  req.UserId,

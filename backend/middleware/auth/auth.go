@@ -1,7 +1,6 @@
 package auth
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -72,12 +71,12 @@ func ProtectedAuthentication() gin.HandlerFunc {
 				c.Abort()
 				return
 			}
-			fmt.Println("aaa", resp)
 			if resp.GetPermission() != 2 {
 				c.JSON(http.StatusForbidden, gin.H{"error": "权限不足"})
 				c.Abort()
 				return
 			}
+			c.Set("permission", resp.GetPermission())
 		}
 		c.Next()
 	}

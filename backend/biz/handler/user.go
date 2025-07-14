@@ -81,8 +81,13 @@ func UserLogin(c *gin.Context) {
 // @Failure		500	{object}	errorReturn	"服务器错误"
 // @Router			/user/logout [post]
 func UserLogout(c *gin.Context) {
+	token := c.GetString("token")
+	if token == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "未登录"})
+		return
+	}
 	_, err := rpc.AuthClient.DeleteToken(c.Request.Context(), &auth.DeleteTokenReq{
-		Token: c.MustGet("token").(string),
+		Token: token,
 	})
 	if err != nil {
 		utils.ErrorHandle(c, err)

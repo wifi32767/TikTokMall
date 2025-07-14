@@ -40,6 +40,7 @@ func Register(r *gin.Engine) {
 	user.PUT("/grant", handler.UserGrant)
 
 	product := api.Group("/product")
+	product.Use(auth.ProtectedAuthentication())
 	product.POST("/create", handler.ProductCreate)
 	product.PUT("/update", handler.ProductUpdate)
 	product.DELETE("/delete", handler.ProductDelete)
@@ -48,16 +49,18 @@ func Register(r *gin.Engine) {
 	product.GET("/search", handler.ProductSearch)
 
 	cart := api.Group("/cart")
+	cart.Use(auth.Authentication())
 	cart.POST("/additem", handler.CartAddItem)
 	cart.POST("/empty", handler.CartEmpty)
 	cart.GET("/get", handler.CartGet)
 
 	order := api.Group("order")
+	order.Use(auth.ProtectedAuthentication())
 	order.POST("/place", handler.OrderPlace)
 	order.GET("/list", handler.OrderList)
 	order.PUT("/cancel", handler.OrderCancel)
 
-	api.POST("/checkout", handler.Checkout)
+	api.POST("/checkout", handler.Checkout, auth.Authentication())
 
 	r.GET("/ping", Ping)
 

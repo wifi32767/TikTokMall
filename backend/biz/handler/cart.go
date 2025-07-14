@@ -24,6 +24,14 @@ func CartAddItem(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	userid := c.GetUint("userid")
+	if req.UserId != uint32(userid) {
+		permission := c.GetInt("permission")
+		if permission != 2 {
+			c.JSON(http.StatusForbidden, gin.H{"error": "权限不足"})
+			return
+		}
+	}
 	_, err := rpc.CartClient.AddItem(c.Request.Context(), &cart.AddItemReq{
 		UserId: req.UserId,
 		Item: &cart.CartItem{
@@ -53,6 +61,14 @@ func CartGet(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	userid := c.GetUint("userid")
+	if req.UserId != uint32(userid) {
+		permission := c.GetInt("permission")
+		if permission != 2 {
+			c.JSON(http.StatusForbidden, gin.H{"error": "权限不足"})
+			return
+		}
+	}
 	resp, err := rpc.CartClient.GetCart(c.Request.Context(), &cart.GetCartReq{
 		UserId: req.UserId,
 	})
@@ -79,6 +95,14 @@ func CartEmpty(c *gin.Context) {
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+	userid := c.GetUint("userid")
+	if req.UserId != uint32(userid) {
+		permission := c.GetInt("permission")
+		if permission != 2 {
+			c.JSON(http.StatusForbidden, gin.H{"error": "权限不足"})
+			return
+		}
 	}
 	_, err := rpc.CartClient.EmptyCart(c.Request.Context(), &cart.EmptyCartReq{
 		UserId: req.UserId,

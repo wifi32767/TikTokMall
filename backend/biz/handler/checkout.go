@@ -27,6 +27,14 @@ func Checkout(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	userid := c.GetUint("userid")
+	if req.UserId != uint32(userid) {
+		permission := c.GetInt("permission")
+		if permission != 2 {
+			c.JSON(http.StatusForbidden, gin.H{"error": "权限不足"})
+			return
+		}
+	}
 	resp, err := rpc.CheckoutClient.Checkout(c.Request.Context(), &checkout.CheckoutReq{
 		UserId: req.UserId,
 		Email:  req.Email,
