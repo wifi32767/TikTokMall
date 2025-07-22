@@ -13,6 +13,7 @@ import (
 	consul "github.com/kitex-contrib/registry-consul"
 	amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/wifi32767/TikTokMall/app/checkout/conf"
+	"github.com/wifi32767/TikTokMall/app/checkout/infra/rabbitmq"
 	"github.com/wifi32767/TikTokMall/app/checkout/infra/rpc"
 	"github.com/wifi32767/TikTokMall/common/logger"
 	checkout "github.com/wifi32767/TikTokMall/rpc/kitex_gen/checkout/checkoutservice"
@@ -30,6 +31,9 @@ func main() {
 	// kitex
 	opts := kitexInit()
 	svr := checkout.NewServer(new(CheckoutServiceImpl), opts...)
+
+	// async call
+	rabbitmq.Init()
 
 	err := svr.Run()
 

@@ -2,8 +2,11 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 
 	"github.com/cloudwego/kitex/pkg/klog"
+	async "github.com/wifi32767/TikTokMall/app/async/message"
+	"github.com/wifi32767/TikTokMall/app/checkout/infra/rabbitmq"
 	"github.com/wifi32767/TikTokMall/app/checkout/infra/rpc"
 	"github.com/wifi32767/TikTokMall/rpc/kitex_gen/cart"
 	checkout "github.com/wifi32767/TikTokMall/rpc/kitex_gen/checkout"
@@ -67,9 +70,19 @@ func (s *CheckoutServiceImpl) Checkout(ctx context.Context, req *checkout.Checko
 		return
 	}
 	// 4. 清空购物车
-	_, err = rpc.CartClient.EmptyCart(ctx, &cart.EmptyCartReq{
-		UserId: req.GetUserId(),
+	body, err := json.Marshal(cart.EmptyCartReq{UserId: req.GetUserId()})
+	if err != nil {
+		return
+	}
+	msg, err := json.Marshal(async.AsyncMessage{
+		Head: "cart.EmptyCart",
+		Body: body,
+		Ctx:  ctx,
 	})
+	if err != nil {
+		return
+	}
+	err = rabbitmq.SendMessage(msg)
 	if err != nil {
 		return
 	}
@@ -84,11 +97,23 @@ func (s *CheckoutServiceImpl) Checkout(ctx context.Context, req *checkout.Checko
 		return
 	}
 	// 6. 更改订单状态
-	_, err = rpc.OrderClient.UpdateOrderState(ctx, &order.UpdateOrderStateReq{
+	body, err = json.Marshal(order.UpdateOrderStateReq{
 		UserId:  req.GetUserId(),
 		OrderId: orderRes.GetOrder().GetOrderId(),
 		State:   "paid",
 	})
+	if err != nil {
+		return
+	}
+	msg, err = json.Marshal(async.AsyncMessage{
+		Head: "order.UpdateOrderState",
+		Body: body,
+		Ctx:  ctx,
+	})
+	if err != nil {
+		return
+	}
+	err = rabbitmq.SendMessage(msg)
 	if err != nil {
 		return
 	}

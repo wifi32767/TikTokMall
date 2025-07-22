@@ -13,8 +13,9 @@ var (
 )
 
 type Config struct {
-	Kitex Kitex `yaml:"kitex"`
-	Log   Log   `yaml:"log"`
+	Kitex   Kitex   `yaml:"kitex"`
+	Log     Log     `yaml:"log"`
+	AsyncMq AsyncMq `yaml:async_mq`
 }
 
 type Kitex struct {
@@ -26,6 +27,10 @@ type Kitex struct {
 type Log struct {
 	Level           string `yaml:"level"`
 	RabbitmqAddress string `yaml:"rabbitmq_address"`
+}
+
+type AsyncMq struct {
+	Address string `yaml:"address"`
 }
 
 func GetConf() *Config {

@@ -10,3 +10,5 @@ redis:
 log:
   level: "info"
   rabbitmq_address: "amqp://admin:123456@localhost:5672/"
+async_mq:
+  address: "amqp://admin:123456@localhost:5672/"
