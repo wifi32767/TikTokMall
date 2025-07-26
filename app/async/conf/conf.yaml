@@ -1,1 +1,5 @@
 consul_address: "localhost:8500"
+mq_address: "amqp://admin:123456@localhost:5672/"
+log:
+  level: "info"
+  mq_address: "amqp://admin:123456@localhost:5672/"

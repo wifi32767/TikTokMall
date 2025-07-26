@@ -75,9 +75,10 @@ func (s *CheckoutServiceImpl) Checkout(ctx context.Context, req *checkout.Checko
 		return
 	}
 	msg, err := json.Marshal(async.AsyncMessage{
-		Head: "cart.EmptyCart",
-		Body: body,
-		Ctx:  ctx,
+		ServiceName: "cart",
+		MethodName:  "EmptyCart",
+		Body:        body,
+		Ctx:         ctx,
 	})
 	if err != nil {
 		return
@@ -106,9 +107,10 @@ func (s *CheckoutServiceImpl) Checkout(ctx context.Context, req *checkout.Checko
 		return
 	}
 	msg, err = json.Marshal(async.AsyncMessage{
-		Head: "order.UpdateOrderState",
-		Body: body,
-		Ctx:  ctx,
+		ServiceName: "order",
+		MethodName:  "UpdateOrderState",
+		Body:        body,
+		Ctx:         ctx,
 	})
 	if err != nil {
 		return

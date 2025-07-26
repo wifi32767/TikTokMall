@@ -15,7 +15,7 @@ var (
 type Config struct {
 	Kitex   Kitex   `yaml:"kitex"`
 	Log     Log     `yaml:"log"`
-	AsyncMq AsyncMq `yaml:async_mq`
+	AsyncMq AsyncMq `yaml:"async_mq"`
 }
 
 type Kitex struct {
