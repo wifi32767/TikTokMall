@@ -2,6 +2,7 @@ kitex:
   service: "auth"
   address: ":8880"
   consul_address: "localhost:8500"
+  prometheus_port: ":9090"
 redis:
   address: "localhost:6379"
   password: ""

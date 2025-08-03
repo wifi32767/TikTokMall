@@ -14,6 +14,7 @@ import (
 	"github.com/wifi32767/TikTokMall/app/product/biz/dal"
 	"github.com/wifi32767/TikTokMall/app/product/conf"
 	"github.com/wifi32767/TikTokMall/common/logger"
+	"github.com/wifi32767/TikTokMall/common/mtl"
 	product "github.com/wifi32767/TikTokMall/rpc/kitex_gen/product/productcatalogservice"
 )
 
@@ -27,6 +28,8 @@ func main() {
 	// dal
 	dal.MysqlInit()
 	dal.RedisInit()
+	// prometheus
+	mtl.InitMetric(conf.GetConf().Kitex.Service, conf.GetConf().Kitex.PrometheusPort, conf.GetConf().Kitex.ConsulAddress)
 	// kitex
 	opts := kitexInit()
 	svr := product.NewServer(new(ProductCatalogServiceImpl), opts...)
@@ -77,7 +80,7 @@ func kitexInit() (opts []server.Option) {
 	opts = append(opts, server.WithMetaHandler(transmeta.ServerTTHeaderHandler))
 
 	// consul
-	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.Consul_address)
+	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.ConsulAddress)
 	if err != nil {
 		panic(err)
 	}

@@ -2,6 +2,7 @@ kitex:
   service: "product"
   address: ":8882"
   consul_address: "localhost:8500"
+  prometheus_port: ":9092"
 mysql:
   dsn: "root:123456@tcp(127.0.0.1:3306)/tiktokmall?charset=utf8mb4&parseTime=True&loc=Local"
 redis:

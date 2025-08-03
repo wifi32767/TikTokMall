@@ -15,6 +15,7 @@ import (
 	"github.com/wifi32767/TikTokMall/app/order/biz/dal"
 	"github.com/wifi32767/TikTokMall/app/order/conf"
 	"github.com/wifi32767/TikTokMall/common/logger"
+	"github.com/wifi32767/TikTokMall/common/mtl"
 	order "github.com/wifi32767/TikTokMall/rpc/kitex_gen/order/orderservice"
 )
 
@@ -27,6 +28,8 @@ func main() {
 	klog.SetLevel(conf.LogLevel())
 	// dal
 	dal.MysqlInit()
+	// prometheus
+	mtl.InitMetric(conf.GetConf().Kitex.Service, conf.GetConf().Kitex.PrometheusPort, conf.GetConf().Kitex.ConsulAddress)
 	// kitex
 	opts := kitexInit()
 	svr := order.NewServer(new(OrderServiceImpl), opts...)
@@ -77,7 +80,7 @@ func kitexInit() (opts []server.Option) {
 	opts = append(opts, server.WithMetaHandler(transmeta.ServerTTHeaderHandler))
 
 	// consul
-	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.Consul_address)
+	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.ConsulAddress)
 	if err != nil {
 		panic(err)
 	}

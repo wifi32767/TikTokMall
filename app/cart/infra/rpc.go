@@ -11,7 +11,7 @@ import (
 var ProductClient productservice.Client
 
 func RpcInit() {
-	r, err := consul.NewConsulResolver(conf.GetConf().Kitex.Consul_address)
+	r, err := consul.NewConsulResolver(conf.GetConf().Kitex.ConsulAddress)
 	if err != nil {
 		panic(err)
 	}

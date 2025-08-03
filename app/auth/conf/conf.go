@@ -21,8 +21,8 @@ type Config struct {
 type Kitex struct {
 	Service        string `yaml:"service"`
 	Address        string `yaml:"address"`
-	Log_level      string `yaml:"log_level"`
-	Consul_address string `yaml:"consul_address"`
+	ConsulAddress  string `yaml:"consul_address"`
+	PrometheusPort string `yaml:"prometheus_port"`
 }
 
 type Redis struct {

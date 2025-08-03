@@ -23,7 +23,8 @@ type Config struct {
 type Kitex struct {
 	Service        string `yaml:"service"`
 	Address        string `yaml:"address"`
-	Consul_address string `yaml:"consul_address"`
+	ConsulAddress  string `yaml:"consul_address"`
+	PrometheusPort string `yaml:"prometheus_port"`
 }
 
 type MySQL struct {
@@ -36,7 +37,7 @@ type Redis struct {
 }
 
 type Rpc struct {
-	Consul_address string `yaml:"consul_address"`
+	ConsulAddress string `yaml:"consul_address"`
 }
 
 type Log struct {

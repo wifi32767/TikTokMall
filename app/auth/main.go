@@ -14,6 +14,7 @@ import (
 	"github.com/wifi32767/TikTokMall/app/auth/conf"
 	"github.com/wifi32767/TikTokMall/app/auth/dal"
 	"github.com/wifi32767/TikTokMall/common/logger"
+	"github.com/wifi32767/TikTokMall/common/mtl"
 	auth "github.com/wifi32767/TikTokMall/rpc/kitex_gen/auth/authservice"
 )
 
@@ -26,6 +27,8 @@ func main() {
 	klog.SetLevel(conf.LogLevel())
 	// redis
 	dal.RedisInit()
+	// prometheus
+	mtl.InitMetric(conf.GetConf().Kitex.Service, conf.GetConf().Kitex.PrometheusPort, conf.GetConf().Kitex.ConsulAddress)
 	// kitex
 	opts := kitexInit()
 	svr := auth.NewServer(new(AuthServiceImpl), opts...)
@@ -76,7 +79,7 @@ func kitexInit() (opts []server.Option) {
 	opts = append(opts, server.WithMetaHandler(transmeta.ServerTTHeaderHandler))
 
 	// consul
-	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.Consul_address)
+	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.ConsulAddress)
 	if err != nil {
 		panic(err)
 	}

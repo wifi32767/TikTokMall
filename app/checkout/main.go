@@ -16,6 +16,7 @@ import (
 	"github.com/wifi32767/TikTokMall/app/checkout/infra/rabbitmq"
 	"github.com/wifi32767/TikTokMall/app/checkout/infra/rpc"
 	"github.com/wifi32767/TikTokMall/common/logger"
+	"github.com/wifi32767/TikTokMall/common/mtl"
 	checkout "github.com/wifi32767/TikTokMall/rpc/kitex_gen/checkout/checkoutservice"
 )
 
@@ -28,6 +29,8 @@ func main() {
 	klog.SetLevel(conf.LogLevel())
 	// rpc
 	rpc.Init()
+	// prometheus
+	mtl.InitMetric(conf.GetConf().Kitex.Service, conf.GetConf().Kitex.PrometheusPort, conf.GetConf().Kitex.ConsulAddress)
 	// kitex
 	opts := kitexInit()
 	svr := checkout.NewServer(new(CheckoutServiceImpl), opts...)
@@ -81,7 +84,7 @@ func kitexInit() (opts []server.Option) {
 	opts = append(opts, server.WithMetaHandler(transmeta.ServerTTHeaderHandler))
 
 	// consul
-	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.Consul_address)
+	r, err := consul.NewConsulRegister(conf.GetConf().Kitex.ConsulAddress)
 	if err != nil {
 		panic(err)
 	}
